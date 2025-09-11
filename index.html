@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Dashboard View -->
+    <div id="dashboardView" class="view-container">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="blog-title">My Notes</h1>
+                <p class="blog-subtitle">Your personal collection of thoughts and ideas</p>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-actions">
+                    <button id="addNoteBtn" class="btn-add-note">
+                        <i class="fas fa-plus"></i> Create New Note
+                    </button>
+                </div>
+
+                <!-- Notes Grid -->
+                <div class="notes-grid">
+                    <h2 class="section-title">Your Notes</h2>
+                    <div id="notesGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editor View -->
+    <div id="editorView" class="view-container" style="display: none;">
+        <div class="container">
+            <!-- Editor Header -->
+            <header class="editor-nav">
+                <button id="backToDashboard" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Back to Notes
+                </button>
+                <h1 class="view-title">Write Note</h1>
+            </header>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-section">
+                    <label class="toolbar-label">Background:</label>
+                    <select id="backgroundSelect" class="select-input">
+                        <option value="white">Clean White</option>
+                        <option value="grey-paper">Grey Paper</option>
+                        <option value="beige-dotted">Beige Dotted</option>
+                        <option value="notebook">Notebook Lines</option>
+                    </select>
+                </div>
+
+                <div class="toolbar-section">
+                    <label class="toolbar-label">Font:</label>
+                    <select id="fontFamily" class="select-input">
+                        <option value="Inter">Inter (Modern)</option>
+                        <option value="Merriweather">Merriweather (Serif)</option>
+                        <option value="Fira Code">Fira Code (Mono)</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Arial">Arial</option>
+                    </select>
+                </div>
+
+                <div class="toolbar-section">
+                    <label class="toolbar-label">Size:</label>
+                    <select id="fontSize" class="select-input">
+                        <option value="14">14px</option>
+                        <option value="16" selected>16px</option>
+                        <option value="18">18px</option>
+                        <option value="20">20px</option>
+                        <option value="22">22px</option>
+                        <option value="24">24px</option>
+                    </select>
+                </div>
+
+                <div class="toolbar-section">
+                    <label class="toolbar-label">Color:</label>
+                    <input type="color" id="textColor" value="#333333" class="color-input">
+                </div>
+
+                <div class="toolbar-section">
+                    <button id="addImageBtn" class="btn-primary">
+                        <i class="fas fa-image"></i> Add Image
+                    </button>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-container">
+                <div class="editor-header">
+                    <input type="text" id="postTitle" placeholder="Enter your note title..." class="title-input">
+                    <div class="post-meta">
+                        <span id="currentDate"></span>
+                    </div>
+                </div>
+
+                <div id="editor" class="editor" contenteditable="true" data-placeholder="Start writing your thoughts...">
+                </div>
+            </div>
+
+            <!-- Save/Load Section -->
+            <div class="actions">
+                <button id="savePost" class="btn-primary">
+                    <i class="fas fa-save"></i> Save Note
+                </button>
+                <button id="newPost" class="btn-secondary">
+                    <i class="fas fa-plus"></i> New Note
+                </button>
+                <button id="exportPost" class="btn-secondary">
+                    <i class="fas fa-download"></i> Export HTML
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reader View -->
+    <div id="readerView" class="view-container" style="display: none;">
+        <div class="container">
+            <!-- Reader Header -->
+            <header class="reader-nav">
+                <button id="backToDashboardFromReader" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Back to Notes
+                </button>
+                <div class="reader-actions">
+                    <button id="editNote" class="btn-secondary">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button id="deleteNote" class="btn-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </header>
+
+            <!-- Reader Content -->
+            <div class="reader-content">
+                <div class="reader-header">
+                    <h1 id="readerTitle"></h1>
+                    <div class="reader-meta">
+                        <span id="readerDate"></span>
+                    </div>
+                </div>
+                <div id="readerBody" class="reader-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Alignment Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Image Alignment</h3>
+            <div class="image-preview" id="imagePreview"></div>
+            <div class="alignment-options">
+                <button class="alignment-btn" data-align="left">
+                    <i class="fas fa-align-left"></i> Left
+                </button>
+                <button class="alignment-btn" data-align="center">
+                    <i class="fas fa-align-center"></i> Center
+                </button>
+                <button class="alignment-btn" data-align="right">
+                    <i class="fas fa-align-right"></i> Right
+                </button>
+            </div>
+            <div class="size-options">
+                <label>Width:</label>
+                <input type="range" id="imageWidth" min="100" max="600" value="300">
+                <span id="widthValue">300px</span>
+            </div>
+            <button id="insertImage" class="btn-primary">Insert Image</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
