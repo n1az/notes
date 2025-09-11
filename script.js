@@ -3,17 +3,64 @@ class BlogApp {
     constructor() {
         this.posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
         this.currentImageFile = null;
+        this.currentView = 'dashboard';
+        this.currentPostId = null;
         this.init();
     }
 
     init() {
         this.setupEventListeners();
         this.updateCurrentDate();
-        this.renderPostsList();
+        this.showView('dashboard');
+        this.renderNotesGrid();
         this.loadLastPost();
     }
 
+    showView(viewName) {
+        // Hide all views
+        document.getElementById('dashboardView').style.display = 'none';
+        document.getElementById('editorView').style.display = 'none';
+        document.getElementById('readerView').style.display = 'none';
+        
+        // Show the requested view
+        document.getElementById(viewName + 'View').style.display = 'block';
+        this.currentView = viewName;
+
+        // Update view-specific content
+        if (viewName === 'dashboard') {
+            this.renderNotesGrid();
+        }
+    }
+
     setupEventListeners() {
+        // Navigation event listeners
+        document.getElementById('addNoteBtn').addEventListener('click', () => {
+            this.newPost();
+            this.showView('editor');
+        });
+
+        document.getElementById('backToDashboard').addEventListener('click', () => {
+            this.showView('dashboard');
+        });
+
+        document.getElementById('backToDashboardFromReader').addEventListener('click', () => {
+            this.showView('dashboard');
+        });
+
+        document.getElementById('editNote').addEventListener('click', () => {
+            if (this.currentPostId) {
+                this.loadPost(this.currentPostId);
+                this.showView('editor');
+            }
+        });
+
+        document.getElementById('deleteNote').addEventListener('click', () => {
+            if (this.currentPostId && confirm('Are you sure you want to delete this note?')) {
+                this.deletePost(this.currentPostId);
+                this.showView('dashboard');
+            }
+        });
+
         // Background theme selection
         document.getElementById('backgroundSelect').addEventListener('change', (e) => {
             this.changeBackground(e.target.value);
@@ -65,10 +112,6 @@ class BlogApp {
         // Action buttons
         document.getElementById('savePost').addEventListener('click', () => {
             this.savePost();
-        });
-
-        document.getElementById('loadPost').addEventListener('click', () => {
-            this.showPostsList();
         });
 
         document.getElementById('newPost').addEventListener('click', () => {
@@ -244,7 +287,7 @@ class BlogApp {
         const content = document.getElementById('editor').innerHTML;
         
         if (!title) {
-            alert('Please enter a title for your post');
+            alert('Please enter a title for your note');
             return;
         }
 
@@ -258,10 +301,14 @@ class BlogApp {
 
         this.posts.unshift(post);
         localStorage.setItem('blogPosts', JSON.stringify(this.posts));
-        this.renderPostsList();
         
         // Show success message
-        this.showNotification('Post saved successfully!', 'success');
+        this.showNotification('Note saved successfully!', 'success');
+        
+        // Return to dashboard after saving
+        setTimeout(() => {
+            this.showView('dashboard');
+        }, 1000);
     }
 
     generatePreview(content) {
@@ -273,6 +320,7 @@ class BlogApp {
     loadPost(postId) {
         const post = this.posts.find(p => p.id === postId);
         if (post) {
+            this.currentPostId = postId;
             document.getElementById('postTitle').value = post.title;
             document.getElementById('editor').innerHTML = post.content;
             this.showNotification('Post loaded successfully!', 'success');
@@ -280,11 +328,17 @@ class BlogApp {
     }
 
     newPost() {
-        if (confirm('Are you sure you want to start a new post? Any unsaved changes will be lost.')) {
-            document.getElementById('postTitle').value = '';
-            document.getElementById('editor').innerHTML = '';
-            document.getElementById('editor').focus();
-        }
+        // Reset the current post ID
+        this.currentPostId = null;
+        
+        // Clear the form
+        document.getElementById('postTitle').value = '';
+        document.getElementById('editor').innerHTML = '';
+        
+        // Focus on title input
+        setTimeout(() => {
+            document.getElementById('postTitle').focus();
+        }, 100);
     }
 
     exportPost() {
@@ -325,26 +379,62 @@ class BlogApp {
         URL.revokeObjectURL(url);
     }
 
-    renderPostsList() {
-        const container = document.getElementById('postsList');
+    renderNotesGrid() {
+        const container = document.getElementById('notesGrid');
         
         if (this.posts.length === 0) {
-            container.innerHTML = '<p style="color: #94a3b8; font-style: italic;">No saved posts yet. Start writing your first post!</p>';
+            container.innerHTML = `
+                <div class="empty-notes">
+                    <i class="fas fa-sticky-note"></i>
+                    <h3>No notes yet</h3>
+                    <p>Click "Create New Note" to get started with your first note!</p>
+                </div>
+            `;
             return;
         }
 
         container.innerHTML = this.posts.map(post => `
-            <div class="post-item" onclick="blogApp.loadPost('${post.id}')">
-                <div class="post-item-title">${post.title}</div>
-                <div class="post-item-date">${new Date(post.date).toLocaleDateString()}</div>
-                <div class="post-item-preview">${post.preview}</div>
+            <div class="note-card" onclick="blogApp.openNote('${post.id}')">
+                <div class="note-card-title">${post.title || 'Untitled Note'}</div>
+                <div class="note-card-date">${new Date(post.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })}</div>
+                <div class="note-card-preview">${post.preview}</div>
             </div>
         `).join('');
     }
 
+    openNote(postId) {
+        const post = this.posts.find(p => p.id === postId);
+        if (post) {
+            this.currentPostId = postId;
+            document.getElementById('readerTitle').textContent = post.title || 'Untitled Note';
+            document.getElementById('readerDate').textContent = new Date(post.date).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('readerBody').innerHTML = post.content;
+            this.showView('reader');
+        }
+    }
+
+    deletePost(postId) {
+        this.posts = this.posts.filter(post => post.id !== postId);
+        localStorage.setItem('blogPosts', JSON.stringify(this.posts));
+        this.showNotification('Note deleted successfully', 'success');
+    }
+
+    renderPostsList() {
+        // Keep for backward compatibility, but redirect to grid
+        this.renderNotesGrid();
+    }
+
     showPostsList() {
-        const container = document.getElementById('postsList');
-        container.scrollIntoView({ behavior: 'smooth' });
+        // Redirect to dashboard view
+        this.showView('dashboard');
     }
 
     autoSave() {
