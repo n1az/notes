@@ -1,113 +1,158 @@
-# My Notes Blog
+# React + TypeScript + Vite
 
-A modern, elegant blog writing website designed for daily, weekly, or monthly reflections. This is a client-side application that can be deployed directly to GitHub Pages.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+# My Notes - Vintage Modern
+
+A beautiful notes application built with React, TypeScript, Tailwind CSS, and Radix UI, featuring a vintage modern design inspired by classic stationery and notebooks.
 
 ## Features
 
-### ✨ Modern & Elegant Design
-- Beautiful gradient header with clean typography
-- Responsive design that works on all devices
-- Smooth animations and transitions
+✨ **Vintage Modern Design** - Inspired by classic paper textures and typography
+📝 **Rich Text Editor** - Write and format your notes with ease
+🎨 **Customizable Styles** - Choose from different backgrounds, fonts, and colors
+💾 **Local Storage** - Your notes are saved locally in your browser
+📱 **Responsive Design** - Works perfectly on desktop and mobile
+🖼️ **Image Support** - Add images to your notes
+📤 **Export Functionality** - Export your notes as HTML files
 
-### 📝 Rich Text Editing
-- Full contenteditable editor with formatting support
-- Keyboard shortcuts (Ctrl+B for bold, Ctrl+I for italic, Ctrl+U for underline)
-- Auto-save functionality (saves drafts every 30 seconds)
+## Tech Stack
 
-### 🎨 Customization Options
-- **Background Themes**: Choose from Clean White, Grey Paper, Beige Dotted, or Notebook Lines
-- **Font Options**: Inter (Modern), Merriweather (Serif), Fira Code (Mono), Georgia, or Arial
-- **Font Size**: Adjustable from 14px to 24px
-- **Text Color**: Full color picker for text customization
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **Radix UI** for accessible components
+- **Vite** for fast development and building
+- **Lucide React** for beautiful icons
 
-### 🖼️ Image Support
-- Upload and insert images directly into posts
-- Image alignment options: Left, Right, or Center
-- Adjustable image width with live preview
-- Drag & drop friendly interface
+## Getting Started
 
-### 💾 Storage & Export
-- Save posts locally using browser storage
-- Load previously saved posts
-- Export posts as standalone HTML files
-- Auto-restore unsaved drafts
+### Prerequisites
 
-## How to Use
+- Node.js 18+ 
+- npm or yarn
 
-### Getting Started
-1. Open `index.html` in your web browser
-2. Enter a title for your post in the title field
-3. Start writing in the editor area
-4. Use the toolbar to customize appearance
+### Installation
 
-### Writing Posts
-- Click in the editor area and start typing
-- Use keyboard shortcuts for quick formatting:
-  - `Ctrl + B`: Bold text
-  - `Ctrl + I`: Italic text  
-  - `Ctrl + U`: Underline text
-  - `Ctrl + S`: Save post
-  - `Ctrl + Shift + ?`: Show help
-
-### Adding Images
-1. Click the "Add Image" button
-2. Select an image file from your computer
-3. Choose alignment (Left, Right, or Center)
-4. Adjust the width using the slider
-5. Click "Insert Image"
-
-### Customizing Appearance
-- **Background**: Select from the dropdown to change the editor background theme
-- **Font**: Choose your preferred font family
-- **Size**: Adjust text size for better readability
-- **Color**: Pick any color for your text
-
-### Saving & Loading
-- Click "Save Post" to store your writing locally
-- Click "Load Post" to browse and open saved posts
-- Click "New Post" to start fresh
-- Click "Export HTML" to download your post as an HTML file
-
-## GitHub Pages Deployment
-
-To deploy this blog to GitHub Pages:
-
-1. Push all files to your GitHub repository
-2. Go to your repository Settings
-3. Navigate to Pages section
-4. Select "Deploy from a branch"
-5. Choose "main" branch and "/ (root)" folder
-6. Your blog will be available at `https://yourusername.github.io/repositoryname`
-
-## Technical Details
-
-- **Frontend**: Pure HTML, CSS, and JavaScript (no frameworks required)
-- **Storage**: Uses browser's localStorage for saving posts
-- **Compatibility**: Works in all modern browsers
-- **Dependencies**: Font Awesome icons and Google Fonts (loaded via CDN)
-
-## File Structure
-
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd notes/main_app
 ```
-/
-├── index.html          # Main application file
-├── styles.css          # All styling and themes
-├── script.js           # Application logic and functionality
-├── README.md           # This documentation
-└── .gitignore          # Git ignore rules
+
+2. Install dependencies:
+```bash
+npm install
 ```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Usage
+
+### Dashboard View
+- View all your notes in a beautiful grid layout
+- Click "Create New Note" to start writing
+- Click on any note card to read it
+
+### Writing Notes
+- Choose from different paper backgrounds (white, grey paper, beige dotted, notebook lines)
+- Select your preferred font family (Inter, Merriweather, Fira Code)
+- Adjust font size and text color
+- Add images to your notes
+- Rich text editing with formatting support
+
+### Reading Notes
+- Clean, focused reading experience
+- Edit or delete notes
+- Export individual notes as HTML files
+
+## Customization
+
+### Adding New Backgrounds
+
+To add new background patterns, update the `backgroundOptions` in:
+- `src/components/NoteEditor.tsx`
+- `src/components/NoteReader.tsx`
+
+Then add the corresponding CSS classes in `src/index.css`.
+
+### Adding New Fonts
+
+Update the `fontOptions` array in `src/components/NoteEditor.tsx` and ensure the fonts are imported in `src/index.css`.
+
+## Storage
+
+Notes are stored locally in your browser using localStorage. No data is sent to external servers, ensuring your privacy and note availability offline.
 
 ## Browser Support
 
-- Chrome 60+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
+This application works in all modern browsers that support:
+- ES6+
+- CSS Grid
+- Flexbox
+- localStorage
 
 ## Contributing
 
-Feel free to fork this repository and submit pull requests for improvements or new features!
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -am 'Add feature'`
+4. Push to the branch: `git push origin feature-name`
+5. Open a Pull Request
 
 ## License
 
-MIT License - See LICENSE file for details.
+This project is open source and available under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+- Design inspired by vintage stationery and modern minimalism
+- Icons provided by [Lucide](https://lucide.dev/)
+- UI components by [Radix UI](https://www.radix-ui.com/)
+- Fonts from [Google Fonts](https://fonts.google.com/)
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
