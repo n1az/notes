@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { ArrowLeft, Download, Image as ImageIcon } from 'lucide-react'
+import { ArrowLeft, Save, Download, Image as ImageIcon } from 'lucide-react'
 import * as Select from '@radix-ui/react-select'
 import type { Note } from '../types'
 import { cn } from '../lib/utils'
@@ -44,9 +44,10 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Update content when note prop changes (for editing existing notes)
+  // Update currentNote when note prop changes (for editing existing notes)
   useState(() => {
     setCurrentNote(note)
+    // Update editor content when switching notes
     if (editorRef.current) {
       editorRef.current.innerHTML = note.content
     }
@@ -58,7 +59,12 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
 
   const handleSave = () => {
     const content = editorRef.current?.innerHTML || ''
-    onSave({ ...currentNote, content, updatedAt: new Date().toISOString() })
+    const updatedNote = {
+      ...currentNote,
+      content,
+      updatedAt: new Date().toISOString()
+    }
+    onSave(updatedNote)
   }
 
   const handleExport = () => {
@@ -68,10 +74,9 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
       <head>
         <title>${currentNote.title}</title>
         <style>
-          body {
-            font-family: ${currentNote.fontFamily}, sans-serif;
-            font-size: ${currentNote.fontSize};
-            line-height: 1.6;
+          body { 
+            font-family: ${currentNote.fontFamily}; 
+            font-size: ${currentNote.fontSize}; 
             color: ${currentNote.textColor};
             max-width: 800px;
             margin: 0 auto;
@@ -188,60 +193,72 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
             </div>
           </div>
         </div>
-
-        {/* Visual Theme */}
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Visual Theme</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Text Color</label>
-              <div className="grid grid-cols-4 gap-2">
-                {['#1f2937', '#dc2626', '#059669', '#2563eb', '#7c3aed', '#db2777', '#ea580c', '#65a30d'].map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => updateNote({ textColor: color })}
-                    className={`w-8 h-8 rounded-lg border-2 transition-all ${
-                      currentNote.textColor === color ? 'border-gray-900 scale-110' : 'border-gray-200 hover:border-gray-400'
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Page Background</label>
-              <div className="grid grid-cols-2 gap-3">
-                {backgroundOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => updateNote({ background: option.value as 'white' | 'grey-paper' | 'beige-dotted' | 'notebook' })}
-                    className={`p-3 rounded-xl border-2 text-left transition-all ${
-                      currentNote.background === option.value
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className={`w-full h-6 rounded mb-2 ${option.className}`}></div>
-                    <span className="text-xs font-medium text-gray-700">{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+                  <Select.Viewport className="p-1">
+                    {fontSizes.map((option) => (
+                      <Select.Item
+                        key={option.value}
+                        value={option.value}
+                        className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 rounded"
+                      >
+                        <Select.ItemText>{option.label}</Select.ItemText>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
           </div>
         </div>
 
-        {/* Media */}
+        {/* Text & Accent Colors */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Text & Accent Colors</h3>
+          <div className="grid grid-cols-4 gap-3 mb-4">
+            {['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'].map((color) => (
+              <button
+                key={color}
+                onClick={() => updateNote({ textColor: color })}
+                className={`w-10 h-10 rounded-full border-2 ${currentNote.textColor === color ? 'border-gray-900' : 'border-gray-200'}`}
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+          <input
+            type="color"
+            value={currentNote.textColor}
+            onChange={(e) => updateNote({ textColor: e.target.value })}
+            className="w-full h-10 rounded border border-gray-200 cursor-pointer"
+          />
+        </div>
+
+        {/* Page Background */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Page Background</h3>
+          <div className="grid grid-cols-3 gap-3">
+            {backgroundOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => updateNote({ background: option.value as Note['background'] })}
+                className={`h-16 rounded-lg border-2 ${currentNote.background === option.value ? 'border-blue-500' : 'border-gray-200'} ${option.className}`}
+                title={option.label}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Insert Image */}
         <div className="p-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Media</h3>
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-center hover:border-gray-400 hover:bg-gray-50 transition-colors group"
-          >
-            <ImageIcon size={24} className="mx-auto mb-2 text-gray-400 group-hover:text-gray-600" />
-            <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800">Add Image</p>
-            <p className="text-xs text-gray-500">Click to upload</p>
-          </button>
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Insert Image</h3>
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex flex-col items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              <ImageIcon size={24} />
+              <span className="text-sm">Upload Image</span>
+            </button>
+            <p className="text-xs text-gray-400 mt-2">Drag & Drop Image Here</p>
+          </div>
           <input
             ref={fileInputRef}
             type="file"
@@ -295,7 +312,7 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
               type="text"
               value={currentNote.title}
               onChange={(e) => updateNote({ title: e.target.value })}
-              placeholder="Your thought title goes here..."
+              placeholder="Your text goes here"
               className="w-full text-3xl font-light text-gray-900 bg-transparent border-none outline-none placeholder-gray-400"
             />
           </div>
@@ -312,9 +329,14 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
                 fontSize: currentNote.fontSize,
                 color: currentNote.textColor
               }}
-              data-placeholder="Start writing your amazing thoughts here..."
+              data-placeholder="Start your amazing story here..."
             />
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 bg-white border-t border-gray-200 text-sm text-gray-500 flex items-center justify-between">
+          <span>Saved Automatically | Word Count: {editorRef.current?.textContent?.split(' ').length || 0}</span>
         </div>
       </div>
     </div>
