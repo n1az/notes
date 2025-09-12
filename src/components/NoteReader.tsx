@@ -1,6 +1,5 @@
-import { ArrowLeft, Edit3, Trash2, Download, Calendar } from 'lucide-react'
+import { ArrowLeft, Edit3, Trash2, Download } from 'lucide-react'
 import type { Note } from '../types'
-import { cn } from '../lib/utils'
 
 interface NoteReaderProps {
   note: Note
@@ -8,13 +7,6 @@ interface NoteReaderProps {
   onEdit: () => void
   onDelete: () => void
 }
-
-const backgroundOptions = [
-  { value: 'white', label: 'White Paper', className: 'bg-white' },
-  { value: 'grey-paper', label: 'Grey Paper', className: 'bg-gray-50 vintage-paper' },
-  { value: 'beige-dotted', label: 'Beige Dotted', className: 'bg-vintage-beige vintage-dotted' },
-  { value: 'notebook', label: 'Notebook Lines', className: 'bg-white notebook-lines' }
-]
 
 export function NoteReader({ note, onBack, onEdit, onDelete }: NoteReaderProps) {
   const handleExport = () => {
@@ -59,125 +51,114 @@ export function NoteReader({ note, onBack, onEdit, onDelete }: NoteReaderProps) 
     URL.revokeObjectURL(url)
   }
 
-  const getBackgroundClass = () => {
-    const option = backgroundOptions.find(opt => opt.value === note.background)
-    return option?.className || 'bg-white'
-  }
-
   return (
-    <div className="min-h-screen bg-vintage-cream">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8 pb-6 border-b border-vintage-beige">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={onBack}
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-vintage-brown hover:text-vintage-darkbrown",
-              "transition-colors duration-200 font-medium"
-            )}
+            className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
           >
             <ArrowLeft size={20} />
-            Back to Notes
           </button>
-
+          
+          <div className="flex items-center gap-3 text-sm text-gray-500">
+            <span>#001</span>
+            <span>•</span>
+            <span>READING</span>
+            <span>•</span>
+            <span>#001</span>
+          </div>
+          
           <div className="flex items-center gap-3">
             <button
               onClick={onEdit}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 bg-vintage-brown text-vintage-cream",
-                "rounded-lg hover:bg-vintage-darkbrown transition-colors duration-200",
-                "font-medium text-sm"
-              )}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <Edit3 size={16} />
-              Edit
+              <Edit3 size={18} />
             </button>
             <button
               onClick={handleExport}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 bg-white text-vintage-brown",
-                "border border-vintage-brown rounded-lg hover:bg-vintage-beige",
-                "transition-colors duration-200 font-medium text-sm"
-              )}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <Download size={16} />
-              Export
+              <Download size={18} />
             </button>
             <button
               onClick={onDelete}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 bg-red-600 text-white",
-                "rounded-lg hover:bg-red-700 transition-colors duration-200",
-                "font-medium text-sm"
-              )}
+              className="text-red-600 hover:text-red-700 transition-colors"
             >
-              <Trash2 size={16} />
-              Delete
+              <Trash2 size={18} />
             </button>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Note Content */}
-        <article className="bg-white rounded-lg border border-vintage-beige shadow-sm overflow-hidden">
-          {/* Note Header */}
-          <div className="border-b border-vintage-beige p-8">
-            <h1 className="text-4xl font-serif font-bold text-vintage-darkbrown mb-4 leading-tight">
-              {note.title || 'Untitled Note'}
-            </h1>
-            <div className="flex items-center gap-6 text-sm text-vintage-brown">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                <span>Created {new Date(note.createdAt).toLocaleDateString('en-US', {
+      {/* Main Content */}
+      <main className="max-w-4xl mx-auto px-6 py-16">
+        {/* Article Header */}
+        <header className="text-center mb-16 border-b border-gray-200 pb-16">
+          <h1 className="text-6xl md:text-7xl font-serif font-normal text-gray-900 mb-8 leading-tight tracking-tight">
+            {note.title || 'Untitled Note'}
+          </h1>
+          
+          <div className="flex items-center justify-center gap-8 text-sm text-gray-500 uppercase tracking-wide">
+            <span>Published {new Date(note.createdAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}</span>
+            {note.updatedAt !== note.createdAt && (
+              <>
+                <span>•</span>
+                <span>Updated {new Date(note.updatedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })}</span>
-              </div>
-              {note.updatedAt !== note.createdAt && (
-                <div className="flex items-center gap-2">
-                  <span>•</span>
-                  <span>Updated {new Date(note.updatedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</span>
-                </div>
-              )}
-            </div>
-            
-            {/* Style Information */}
-            <div className="flex items-center gap-4 mt-4 text-xs text-vintage-brown opacity-75">
-              <span className="capitalize">Font: {note.fontFamily}</span>
+              </>
+            )}
+          </div>
+        </header>
+
+        {/* Article Content */}
+        <article className="prose prose-xl prose-gray max-w-none">
+          <div
+            style={{
+              fontFamily: note.fontFamily,
+              fontSize: note.fontSize,
+              color: note.textColor,
+              lineHeight: '1.8'
+            }}
+            className="text-lg leading-relaxed"
+            dangerouslySetInnerHTML={{ 
+              __html: note.content || '<p class="text-gray-500 italic text-center py-16">This note is empty.</p>' 
+            }}
+          />
+        </article>
+
+        {/* Article Footer */}
+        <footer className="mt-20 pt-12 border-t border-gray-200">
+          <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="flex items-center gap-4">
+              <span>Font: {note.fontFamily}</span>
               <span>•</span>
               <span>Size: {note.fontSize}</span>
               <span>•</span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <span>Color:</span>
                 <div 
-                  className="w-3 h-3 rounded-full border border-vintage-beige"
+                  className="w-4 h-4 rounded border border-gray-300"
                   style={{ backgroundColor: note.textColor }}
                 />
               </div>
             </div>
+            <div className="italic">
+              @yourthoughts
+            </div>
           </div>
-
-          {/* Note Body */}
-          <div className={cn("p-8", getBackgroundClass())}>
-            <div
-              className="prose prose-lg max-w-none"
-              style={{
-                fontFamily: note.fontFamily,
-                fontSize: note.fontSize,
-                color: note.textColor
-              }}
-              dangerouslySetInnerHTML={{ __html: note.content || '<p class="text-gray-500 italic">This note is empty.</p>' }}
-            />
-          </div>
-        </article>
-
-        {/* Bottom spacing */}
-        <div className="h-16"></div>
-      </div>
+        </footer>
+      </main>
     </div>
   )
 }

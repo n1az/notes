@@ -10,6 +10,14 @@ export default {
         'serif': ['Merriweather', 'Georgia', 'serif'],
         'sans': ['Inter', 'system-ui', 'sans-serif'],
         'mono': ['Fira Code', 'monospace'],
+        'display': ['Playfair Display', 'serif'],
+        'cursive': ['Dancing Script', 'cursive'],
+        'retro': ['Fredoka One', 'sans-serif'],
+        'vintage': ['Righteous', 'sans-serif'],
+        'spooky': ['Creepster', 'cursive'],
+        'horror': ['Nosifer', 'cursive'],
+        'old': ['Griffy', 'cursive'],
+        'western': ['Rye', 'cursive'],
       },
       colors: {
         vintage: {
@@ -18,6 +26,10 @@ export default {
           brown: '#8B4513',
           darkbrown: '#654321',
           gold: '#D4AF37',
+          orange: '#CD853F',
+          rust: '#B7410E',
+          olive: '#6B8E23',
+          sage: '#9CAF88',
         }
       }
     },

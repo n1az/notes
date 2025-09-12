@@ -12,9 +12,31 @@ function App() {
 
   // Load notes from storage on mount
   useEffect(() => {
-    const savedNotes = notesStorage.getAllNotes()
+    const savedNotes = notesStorage.initializeWithSeedData()
     setNotes(savedNotes)
   }, [])
+
+  // Add keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ctrl/Cmd + N for new note
+      if ((event.ctrlKey || event.metaKey) && event.key === 'n') {
+        event.preventDefault()
+        if (currentView === 'dashboard') {
+          handleCreateNote()
+        }
+      }
+      
+      // Escape to go back to dashboard
+      if (event.key === 'Escape' && currentView !== 'dashboard') {
+        event.preventDefault()
+        handleBackToDashboard()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentView])
 
   const handleCreateNote = () => {
     const newNote = createEmptyNote()

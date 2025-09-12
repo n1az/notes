@@ -1,6 +1,8 @@
 import type { Note } from '../types'
+import { createSeedNotes } from '../data/seedNotes'
 
 const NOTES_STORAGE_KEY = 'vintage-notes'
+const FIRST_VISIT_KEY = 'vintage-notes-first-visit'
 
 export const notesStorage = {
   // Get all notes from localStorage
@@ -47,6 +49,27 @@ export const notesStorage = {
   getNoteById(id: string): Note | undefined {
     const notes = this.getAllNotes()
     return notes.find(note => note.id === id)
+  },
+
+  // Check if this is the user's first visit
+  isFirstVisit(): boolean {
+    return !localStorage.getItem(FIRST_VISIT_KEY)
+  },
+
+  // Mark first visit as complete
+  markFirstVisitComplete(): void {
+    localStorage.setItem(FIRST_VISIT_KEY, 'true')
+  },
+
+  // Initialize with seed data if first visit
+  initializeWithSeedData(): Note[] {
+    if (this.isFirstVisit()) {
+      const seedNotes = createSeedNotes()
+      localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(seedNotes))
+      this.markFirstVisitComplete()
+      return seedNotes
+    }
+    return this.getAllNotes()
   }
 }
 

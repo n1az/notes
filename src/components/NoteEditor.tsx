@@ -19,9 +19,17 @@ const backgroundOptions = [
 ]
 
 const fontOptions = [
-  { value: 'Inter', label: 'Inter (Sans-serif)' },
-  { value: 'Merriweather', label: 'Merriweather (Serif)' },
-  { value: 'Fira Code', label: 'Fira Code (Monospace)' }
+  { value: 'Inter', label: 'Inter (Modern Sans)' },
+  { value: 'Merriweather', label: 'Merriweather (Classic Serif)' },
+  { value: 'Playfair Display', label: 'Playfair Display (Elegant Serif)' },
+  { value: 'Fira Code', label: 'Fira Code (Monospace)' },
+  { value: 'Dancing Script', label: 'Dancing Script (Cursive)' },
+  { value: 'Fredoka One', label: 'Fredoka One (Retro Fun)' },
+  { value: 'Righteous', label: 'Righteous (Vintage)' },
+  { value: 'Griffy', label: 'Griffy (Old Style)' },
+  { value: 'Rye', label: 'Rye (Western)' },
+  { value: 'Creepster', label: 'Creepster (Spooky)' },
+  { value: 'Nosifer', label: 'Nosifer (Horror)' }
 ]
 
 const fontSizes = [
@@ -105,217 +113,207 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
   }
 
   return (
-    <div className="min-h-screen bg-vintage-cream">
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8 pb-6 border-b border-vintage-beige">
-          <button
-            onClick={onBack}
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 text-vintage-brown hover:text-vintage-darkbrown",
-              "transition-colors duration-200 font-medium"
-            )}
-          >
-            <ArrowLeft size={20} />
-            Back to Notes
-          </button>
-          <h1 className="text-2xl font-serif font-semibold text-vintage-darkbrown">
-            Write Note
-          </h1>
-          <div className="w-24"></div> {/* Spacer for centering */}
-        </header>
-
-        {/* Toolbar */}
-        <div className="bg-white rounded-lg border border-vintage-beige p-4 mb-6 shadow-sm">
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Background Selection */}
-            <div className="flex items-center gap-2">
-              <Palette size={16} className="text-vintage-brown" />
-              <span className="text-sm font-medium text-vintage-darkbrown">Background:</span>
-              <Select.Root
-                value={currentNote.background}
-                onValueChange={(value) => updateNote({ background: value as Note['background'] })}
-              >
-                <Select.Trigger className="px-3 py-2 bg-white border border-vintage-beige rounded text-sm min-w-[140px] flex items-center justify-between">
-                  <Select.Value />
-                  <Select.Icon />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="bg-white border border-vintage-beige rounded-lg shadow-lg z-50">
-                    <Select.Viewport className="p-1">
-                      {backgroundOptions.map((option) => (
-                        <Select.Item
-                          key={option.value}
-                          value={option.value}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-vintage-beige rounded"
-                        >
-                          <Select.ItemText>{option.label}</Select.ItemText>
-                        </Select.Item>
-                      ))}
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div>
-
-            {/* Font Family */}
-            <div className="flex items-center gap-2">
-              <Type size={16} className="text-vintage-brown" />
-              <span className="text-sm font-medium text-vintage-darkbrown">Font:</span>
-              <Select.Root
-                value={currentNote.fontFamily}
-                onValueChange={(value) => updateNote({ fontFamily: value })}
-              >
-                <Select.Trigger className="px-3 py-2 bg-white border border-vintage-beige rounded text-sm min-w-[140px] flex items-center justify-between">
-                  <Select.Value />
-                  <Select.Icon />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="bg-white border border-vintage-beige rounded-lg shadow-lg z-50">
-                    <Select.Viewport className="p-1">
-                      {fontOptions.map((option) => (
-                        <Select.Item
-                          key={option.value}
-                          value={option.value}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-vintage-beige rounded"
-                        >
-                          <Select.ItemText>{option.label}</Select.ItemText>
-                        </Select.Item>
-                      ))}
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div>
-
-            {/* Font Size */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-vintage-darkbrown">Size:</span>
-              <Select.Root
-                value={currentNote.fontSize}
-                onValueChange={(value) => updateNote({ fontSize: value })}
-              >
-                <Select.Trigger className="px-3 py-2 bg-white border border-vintage-beige rounded text-sm min-w-[120px] flex items-center justify-between">
-                  <Select.Value />
-                  <Select.Icon />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="bg-white border border-vintage-beige rounded-lg shadow-lg z-50">
-                    <Select.Viewport className="p-1">
-                      {fontSizes.map((option) => (
-                        <Select.Item
-                          key={option.value}
-                          value={option.value}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-vintage-beige rounded"
-                        >
-                          <Select.ItemText>{option.label}</Select.ItemText>
-                        </Select.Item>
-                      ))}
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div>
-
-            {/* Text Color */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-vintage-darkbrown">Color:</span>
-              <input
-                type="color"
-                value={currentNote.textColor}
-                onChange={(e) => updateNote({ textColor: e.target.value })}
-                className="w-8 h-8 rounded border border-vintage-beige cursor-pointer"
-              />
-            </div>
-
-            {/* Image Upload */}
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Sidebar Controls */}
+      <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+        {/* Sidebar Header */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between mb-4">
             <button
-              onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 px-3 py-2 bg-vintage-brown text-vintage-cream rounded text-sm hover:bg-vintage-darkbrown transition-colors"
+              onClick={onBack}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <ImageIcon size={16} />
-              Add Image
+              <ArrowLeft size={20} />
             </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
+            <h2 className="text-lg font-medium text-gray-900">Design Your Page</h2>
+            <div className="w-5"></div>
           </div>
         </div>
 
-        {/* Editor Container */}
-        <div className="bg-white rounded-lg border border-vintage-beige shadow-sm overflow-hidden">
+        {/* Font Selection */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Choose your font</h3>
+          <Select.Root
+            value={currentNote.fontFamily}
+            onValueChange={(value) => updateNote({ fontFamily: value })}
+          >
+            <Select.Trigger className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm flex items-center justify-between">
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Content className="bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <Select.Viewport className="p-1">
+                  {fontOptions.map((option) => (
+                    <Select.Item
+                      key={option.value}
+                      value={option.value}
+                      className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 rounded"
+                    >
+                      <Select.ItemText>{option.label}</Select.ItemText>
+                    </Select.Item>
+                  ))}
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
+          </Select.Root>
+          
+          <div className="mt-4">
+            <Select.Root
+              value={currentNote.fontSize}
+              onValueChange={(value) => updateNote({ fontSize: value })}
+            >
+              <Select.Trigger className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm flex items-center justify-between">
+                <Select.Value />
+                <Select.Icon />
+              </Select.Trigger>
+              <Select.Portal>
+                <Select.Content className="bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <Select.Viewport className="p-1">
+                    {fontSizes.map((option) => (
+                      <Select.Item
+                        key={option.value}
+                        value={option.value}
+                        className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 rounded"
+                      >
+                        <Select.ItemText>{option.label}</Select.ItemText>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
+          </div>
+        </div>
+
+        {/* Text & Accent Colors */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Text & Accent Colors</h3>
+          <div className="grid grid-cols-4 gap-3 mb-4">
+            {['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'].map((color) => (
+              <button
+                key={color}
+                onClick={() => updateNote({ textColor: color })}
+                className={`w-10 h-10 rounded-full border-2 ${currentNote.textColor === color ? 'border-gray-900' : 'border-gray-200'}`}
+                style={{ backgroundColor: color }}
+              />
+            ))}
+          </div>
+          <input
+            type="color"
+            value={currentNote.textColor}
+            onChange={(e) => updateNote({ textColor: e.target.value })}
+            className="w-full h-10 rounded border border-gray-200 cursor-pointer"
+          />
+        </div>
+
+        {/* Page Background */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Page Background</h3>
+          <div className="grid grid-cols-3 gap-3">
+            {backgroundOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => updateNote({ background: option.value as Note['background'] })}
+                className={`h-16 rounded-lg border-2 ${currentNote.background === option.value ? 'border-blue-500' : 'border-gray-200'} ${option.className}`}
+                title={option.label}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Insert Image */}
+        <div className="p-6">
+          <h3 className="text-sm font-medium text-gray-900 mb-4">Insert Image</h3>
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex flex-col items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              <ImageIcon size={24} />
+              <span className="text-sm">Upload Image</span>
+            </button>
+            <p className="text-xs text-gray-400 mt-2">Drag & Drop Image Here</p>
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+        </div>
+      </div>
+
+      {/* Main Editor Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
+        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <span>My Notes</span>
+            <span>•</span>
+            <span>My Notes</span>
+            <span>•</span>
+            <span>Drafts</span>
+            <span>•</span>
+            <span>Published</span>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onNew}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <Plus size={18} />
+            </button>
+            <button
+              onClick={handleExport}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <Download size={18} />
+            </button>
+            <button
+              onClick={handleSave}
+              className="bg-orange-400 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition-colors text-sm font-medium"
+            >
+              Publish
+            </button>
+          </div>
+        </div>
+
+        {/* Editor Content */}
+        <div className="flex-1 bg-white m-6 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
           {/* Title Input */}
-          <div className="border-b border-vintage-beige p-6">
+          <div className="p-8 border-b border-gray-100">
             <input
               type="text"
               value={currentNote.title}
               onChange={(e) => updateNote({ title: e.target.value })}
-              placeholder="Enter your note title..."
-              className="w-full text-3xl font-serif font-bold text-vintage-darkbrown bg-transparent border-none outline-none placeholder-vintage-brown placeholder-opacity-50"
+              placeholder="Your text goes here"
+              className="w-full text-3xl font-light text-gray-900 bg-transparent border-none outline-none placeholder-gray-400"
             />
-            <div className="text-sm text-vintage-brown mt-2">
-              Created {new Date(currentNote.createdAt).toLocaleDateString()}
-            </div>
           </div>
 
-          {/* Editor */}
-          <div 
-            className={cn("min-h-[500px] p-6", getBackgroundClass())}
-          >
+          {/* Content Editor */}
+          <div className={cn("p-8", getBackgroundClass())}>
             <div
               ref={editorRef}
               contentEditable
               dangerouslySetInnerHTML={{ __html: currentNote.content }}
-              className="min-h-[450px] outline-none prose prose-lg max-w-none"
+              className="min-h-[400px] outline-none text-lg leading-relaxed text-gray-700"
               style={{
                 fontFamily: currentNote.fontFamily,
                 fontSize: currentNote.fontSize,
                 color: currentNote.textColor
               }}
-              data-placeholder="Start writing your thoughts..."
+              data-placeholder="Start your amazing story here..."
             />
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={handleSave}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 bg-vintage-brown text-vintage-cream",
-              "rounded-lg hover:bg-vintage-darkbrown transition-colors duration-200",
-              "font-medium shadow-md hover:shadow-lg"
-            )}
-          >
-            <Save size={20} />
-            Save Note
-          </button>
-          <button
-            onClick={onNew}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 bg-white text-vintage-brown",
-              "border border-vintage-brown rounded-lg hover:bg-vintage-beige",
-              "transition-colors duration-200 font-medium"
-            )}
-          >
-            <Plus size={20} />
-            New Note
-          </button>
-          <button
-            onClick={handleExport}
-            className={cn(
-              "flex items-center gap-2 px-6 py-3 bg-white text-vintage-brown",
-              "border border-vintage-brown rounded-lg hover:bg-vintage-beige",
-              "transition-colors duration-200 font-medium"
-            )}
-          >
-            <Download size={20} />
-            Export HTML
-          </button>
+        {/* Footer */}
+        <div className="px-6 py-4 bg-white border-t border-gray-200 text-sm text-gray-500 flex items-center justify-between">
+          <span>Saved Automatically | Word Count: {editorRef.current?.textContent?.split(' ').length || 0}</span>
         </div>
       </div>
     </div>

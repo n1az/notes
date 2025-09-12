@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Local Storage - Notes App</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F8F6F0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #E8E2D4;
+        }
+        button {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 8px;
+        }
+        button:hover {
+            background: #654321;
+        }
+        .success {
+            color: #10b981;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color: #654321;">Notes App - Storage Manager</h2>
+        <p>Use these buttons to test the first-time user experience:</p>
+        
+        <button onclick="clearStorage()">Clear All Data</button>
+        <button onclick="showCurrentData()">Show Current Data</button>
+        <button onclick="goToApp()">Go to Notes App</button>
+        
+        <div id="message"></div>
+        <div id="data" style="margin-top: 1rem; text-align: left; max-width: 600px;"></div>
+    </div>
+
+    <script>
+        function clearStorage() {
+            localStorage.removeItem('vintage-notes');
+            localStorage.removeItem('vintage-notes-first-visit');
+            document.getElementById('message').innerHTML = '<div class="success">✅ All data cleared! Refresh the Notes app to see the welcome experience.</div>';
+            document.getElementById('data').innerHTML = '';
+        }
+
+        function showCurrentData() {
+            const notes = localStorage.getItem('vintage-notes');
+            const firstVisit = localStorage.getItem('vintage-notes-first-visit');
+            
+            let html = '<h3>Current Storage:</h3>';
+            html += `<p><strong>First Visit Flag:</strong> ${firstVisit || 'Not set'}</p>`;
+            
+            if (notes) {
+                const notesData = JSON.parse(notes);
+                html += `<p><strong>Notes Count:</strong> ${notesData.length}</p>`;
+                html += '<p><strong>Note Titles:</strong></p><ul>';
+                notesData.forEach(note => {
+                    html += `<li>${note.title || 'Untitled'}</li>`;
+                });
+                html += '</ul>';
+            } else {
+                html += '<p><strong>Notes:</strong> None stored</p>';
+            }
+            
+            document.getElementById('data').innerHTML = html;
+            document.getElementById('message').innerHTML = '';
+        }
+
+        function goToApp() {
+            window.open('http://localhost:5173/', '_blank');
+        }
+
+        // Show current data on load
+        showCurrentData();
+    </script>
+</body>
+</html>
