@@ -1,4 +1,4 @@
-import { PlusCircle, FileText, Calendar, ChevronRight } from 'lucide-react'
+import { PlusCircle, FileText, Calendar } from 'lucide-react'
 import type { Note } from '../types'
 import { cn } from '../lib/utils'
 
@@ -36,7 +36,7 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
         {/* Retro Header */}
         <header className="text-center mb-20 relative">
           {/* NMT branding in top right corner */}
-          <div className="absolute top-0 right-0 font-liham text-2xl text-vintage-rust tracking-widest">
+          <div className="absolute top-0 right-0 font-liham text-2xl text-vintage-deep-grey tracking-widest">
             NMT
           </div>
           
@@ -44,21 +44,20 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
           <div className="relative inline-block mb-8">
             {/* MD NIAZ MORSHED positioned above and right-aligned with think */}
             <div className="text-right mb-12">
-              <div className="font-metanoia text-vintage-brown text-md tracking-wide">MD NIAZ</div>
-              <div className="font-metanoia text-vintage-brown text-md tracking-wide">MORSHED</div>
+              <div className="font-metanoia text-vintage-deep-grey text-md tracking-wide">MD NIAZ</div>
+              <div className="font-metanoia text-vintage-deep-grey text-md tracking-wide">MORSHED</div>
             </div>
             
             {/* Main title */}
-            <h1 className="text-8xl md:text-9xl font-hangout font-bold text-vintage-darkbrown mb-8 tracking-wider drop-shadow-lg">
+            <h1 className="text-8xl md:text-9xl font-hangout font-bold text-vintage-deep-grey mb-8 tracking-wider drop-shadow-lg">
               think
             </h1>
             
             {/* PERSONAL MINDSCAPE moved down with more spacing */}
             <div className="text-center mt-8">
-              <p className="text-2xl font-metanoia text-vintage-brown leading-relaxed">
+              <p className="text-2xl font-metanoia text-vintage-deep-grey leading-relaxed">
                 PERSONAL MINDSCAPE
               </p>
-              <div className="mx-auto mt-2 w-32 h-1 bg-vintage-gold rounded-full"></div>
             </div>
           </div>
         </header>
@@ -67,83 +66,56 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
 
         {/* Retro Notes Grid */}
         <div className="mb-16">
-          <h2 className="text-2xl font-metanoia font-bold text-vintage-darkbrown mb-8 text-center tracking-wider">
+          <h2 className="text-lg font-helvetica-world font-bold text-vintage-deep-grey mb-8 text-center tracking-wider">
             RECENT THINKS
           </h2>
           
           {notes.length === 0 ? (
             <div className="text-center py-20">
               <div className="relative mb-8">
-                <div className="w-40 h-40 mx-auto bg-vintage-beige rounded-full flex items-center justify-center shadow-[8px_8px_0px_0px_theme(colors.vintage.brown)] border-4 border-vintage-brown">
-                  <FileText size={64} className="text-vintage-rust" />
+                <div className="w-40 h-40 mx-auto bg-gray-100 rounded-full flex items-center justify-center border-2 border-vintage-grey-border">
+                  <FileText size={64} className="text-vintage-light-grey" />
                 </div>
-                <div className="absolute -top-4 -right-4 w-8 h-8 bg-vintage-gold rounded-full border-4 border-vintage-cream"></div>
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-vintage-deep-grey rounded-full border-4 border-white"></div>
               </div>
               
-              <h3 className="text-4xl font-metanoia font-bold text-vintage-brown mb-4">No Notes Yet!</h3>
-              <p className="text-vintage-brown/80 max-w-md mx-auto text-lg leading-relaxed font-bauhaus italic">
+              <h3 className="text-4xl font-metanoia font-bold text-vintage-deep-grey mb-4">No Notes Yet!</h3>
+              <p className="text-vintage-light-grey max-w-md mx-auto text-lg leading-relaxed font-bauhaus">
                 "The first page is always the hardest to fill..."
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {notes.map((note, index) => (
+              {notes.map((note) => (
                 <div
                   key={note.id}
                   onClick={() => onSelectNote(note)}
                   className={cn(
-                    "group bg-vintage-cream border-4 border-vintage-brown rounded-lg p-6 cursor-pointer",
-                    "shadow-[6px_6px_0px_0px_theme(colors.vintage.brown)]",
-                    "hover:shadow-[3px_3px_0px_0px_theme(colors.vintage.brown)]",
-                    "hover:translate-x-1 hover:translate-y-1",
-                    "transition-all duration-200 ease-out transform-gpu",
-                    "relative overflow-hidden",
-                    // Vary the rotation slightly for each card
-                    index % 3 === 0 ? "transform rotate-1" : index % 3 === 1 ? "transform -rotate-1" : ""
+                    "group bg-white border-2 border-vintage-deep-grey rounded-lg p-6 cursor-pointer",
+                    "hover:border-vintage-medium-grey hover:shadow-lg",
+                    "transition-all duration-200 ease-out",
+                    "relative overflow-hidden"
                   )}
                 >
-                  {/* Retro Corner Badge */}
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-vintage-rust rounded-full border-2 border-vintage-cream"></div>
-                  
-                  {/* Background Pattern Based on Note Style */}
-                  <div 
-                    className={cn(
-                      "absolute inset-0 opacity-10",
-                      note.background === 'grey-paper' && 'vintage-paper',
-                      note.background === 'beige-dotted' && 'vintage-dotted',
-                      note.background === 'notebook' && 'notebook-lines'
-                    )}
-                  />
-                  
                   <div className="relative z-10">
                     {/* Note Title */}
-                    <div className="flex items-start justify-between mb-4">
-                      <h3 className="font-metanoia font-bold text-xl text-vintage-darkbrown line-clamp-2 flex-1">
-                        {note.title || 'Untitled Note'}
-                      </h3>
-                      <ChevronRight 
-                        size={24} 
-                        className="text-vintage-brown group-hover:text-vintage-rust group-hover:translate-x-1 transition-all duration-200 ml-2 flex-shrink-0" 
-                      />
-                    </div>
+                    <h3 className="font-metanoia font-bold text-lg text-vintage-deep-grey mb-3 line-clamp-2">
+                      {note.title || 'Untitled Note'}
+                    </h3>
                     
                     {/* Note Preview */}
-                    <p className="font-bauhaus text-vintage-brown text-sm mb-6 line-clamp-3 leading-relaxed">
+                    <p className="font-bauhaus text-vintage-medium-grey text-sm mb-4 line-clamp-4 leading-relaxed">
                       {getPreview(note.content) || 'No content yet...'}
                     </p>
                     
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2 text-vintage-brown/80">
+                    <div className="flex items-center justify-between text-xs pt-2 border-t border-vintage-light-grey/30">
+                      <div className="flex items-center gap-2 text-vintage-light-grey">
                         <Calendar size={12} />
                         <span className="font-mono">{formatDate(note.updatedAt)}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded border-2 border-vintage-brown shadow-sm"
-                          style={{ backgroundColor: note.textColor }}
-                        />
-                        <span className="text-vintage-brown/60 font-mono text-xs uppercase">{note.fontFamily}</span>
+                        <span className="text-vintage-light-grey font-mono text-xs uppercase">{note.fontFamily}</span>
                       </div>
                     </div>
                   </div>
@@ -154,18 +126,16 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
               <div
                 onClick={onCreateNote}
                 className={cn(
-                  "group bg-vintage-beige border-4 border-dashed border-vintage-brown rounded-lg p-6 cursor-pointer",
-                  "shadow-[6px_6px_0px_0px_theme(colors.vintage.brown)]",
-                  "hover:shadow-[3px_3px_0px_0px_theme(colors.vintage.brown)]",
-                  "hover:translate-x-1 hover:translate-y-1",
-                  "transition-all duration-200 ease-out transform-gpu",
+                  "group bg-white border-2 border-dashed border-vintage-grey-border rounded-lg p-6 cursor-pointer",
+                  "hover:border-vintage-medium-grey hover:bg-gray-50",
+                  "transition-all duration-200 ease-out",
                   "relative overflow-hidden flex items-center justify-center min-h-[200px]"
                 )}
               >
                 <div className="text-center">
-                  <PlusCircle size={48} className="text-vintage-brown mx-auto mb-4 group-hover:rotate-90 transition-transform duration-300" />
-                  <h3 className="font-metanoia font-bold text-xl text-vintage-brown mb-2">Add New Note</h3>
-                  <p className="font-bauhaus text-vintage-brown/80 text-sm">Start writing your thoughts...</p>
+                  <PlusCircle size={48} className="text-vintage-light-grey mx-auto mb-4 group-hover:text-vintage-medium-grey transition-colors duration-300" />
+                  <h3 className="font-metanoia font-bold text-lg text-vintage-deep-grey mb-2">Add New Note</h3>
+                  <p className="font-bauhaus text-vintage-light-grey text-sm">Start writing your thoughts...</p>
                 </div>
               </div>
             </div>
@@ -174,7 +144,7 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
 
         {/* MY WORKS Section */}
         <div className="mb-8">
-          <h2 className="text-2xl font-giaza font-bold text-vintage-darkbrown mb-8 text-center tracking-wider">
+          <h2 className="text-2xl font-giaza font-bold text-vintage-deep-grey mb-8 text-center tracking-wider">
             MY WORKS
           </h2>
           
@@ -187,22 +157,22 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
               <div
                 key={index}
                 className={cn(
-                  "group bg-gradient-to-br from-vintage-beige to-vintage-cream border-4 border-vintage-brown rounded-lg p-6 cursor-pointer",
-                  "shadow-[6px_6px_0px_0px_theme(colors.vintage.brown)]",
-                  "hover:shadow-[3px_3px_0px_0px_theme(colors.vintage.brown)]",
-                  "hover:translate-x-1 hover:translate-y-1",
-                  "transition-all duration-200 ease-out transform-gpu",
-                  "relative overflow-hidden"
+                  "group border-2 border-vintage-deep-grey rounded-lg p-6 cursor-pointer",
+                  "hover:border-vintage-medium-grey hover:shadow-lg",
+                  "transition-all duration-200 ease-out",
+                  "relative overflow-hidden",
+                  // Different background colors for each card
+                  index === 0 ? "bg-blue-100" : index === 1 ? "bg-rose-100" : "bg-green-100"
                 )}
               >
                 <div className="relative z-10">
-                  <h3 className="font-metanoia font-bold text-xl text-vintage-darkbrown mb-4">
+                  <h3 className="font-metanoia font-bold text-lg text-vintage-deep-grey mb-3">
                     {work.title}
                   </h3>
-                  <p className="font-bauhaus text-vintage-brown text-sm mb-4 leading-relaxed">
+                  <p className="font-bauhaus text-vintage-medium-grey text-sm mb-4 leading-relaxed">
                     {work.description}
                   </p>
-                  <div className="text-vintage-rust font-bauhaus text-sm">
+                  <div className="text-blue-600 font-bauhaus text-sm font-medium">
                     Here is the github link
                   </div>
                 </div>
@@ -212,18 +182,16 @@ export function Dashboard({ notes, onCreateNote, onSelectNote }: DashboardProps)
             {/* Add New Work Card */}
             <div
               className={cn(
-                "group bg-vintage-beige border-4 border-dashed border-vintage-brown rounded-lg p-6 cursor-pointer",
-                "shadow-[6px_6px_0px_0px_theme(colors.vintage.brown)]",
-                "hover:shadow-[3px_3px_0px_0px_theme(colors.vintage.brown)]",
-                "hover:translate-x-1 hover:translate-y-1",
-                "transition-all duration-200 ease-out transform-gpu",
+                "group bg-white border-2 border-dashed border-vintage-grey-border rounded-lg p-6 cursor-pointer",
+                "hover:border-vintage-medium-grey hover:bg-gray-50",
+                "transition-all duration-200 ease-out",
                 "relative overflow-hidden flex items-center justify-center min-h-[200px]"
               )}
             >
               <div className="text-center">
-                <PlusCircle size={48} className="text-vintage-brown mx-auto mb-4 group-hover:rotate-90 transition-transform duration-300" />
-                <h3 className="font-metanoia font-bold text-xl text-vintage-brown mb-2">Add New Work</h3>
-                <p className="font-bauhaus text-vintage-brown/80 text-sm">Showcase your projects...</p>
+                <PlusCircle size={48} className="text-vintage-light-grey mx-auto mb-4 group-hover:text-vintage-medium-grey transition-colors duration-300" />
+                <h3 className="font-metanoia font-bold text-lg text-vintage-deep-grey mb-2">Add New Work</h3>
+                <p className="font-bauhaus text-vintage-light-grey text-sm">Showcase your projects...</p>
               </div>
             </div>
           </div>

@@ -37,6 +37,11 @@ export default {
           rust: '#B7410E',
           olive: '#6B8E23',
           sage: '#9CAF88',
+          // Deep grey colors for the new design
+          'deep-grey': '#2D2D2D',
+          'medium-grey': '#4A4A4A',
+          'light-grey': '#6B6B6B',
+          'grey-border': '#8B8B8B',
         }
       }
     },
