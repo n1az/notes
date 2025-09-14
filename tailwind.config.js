@@ -18,6 +18,13 @@ export default {
         'horror': ['Nosifer', 'cursive'],
         'old': ['Griffy', 'cursive'],
         'western': ['Rye', 'cursive'],
+        // Custom Canva-inspired fonts mapped to actual uploaded fonts
+        'hangout': ['Hangout', 'Anton', 'Bebas Neue', 'Impact', 'sans-serif'],
+        'liham': ['LIHAM', 'Orbitron', 'monospace', 'sans-serif'],
+        'bauhaus': ['ITC Bauhaus', 'Kanit', 'Arial', 'sans-serif'],
+        'helvetica-world': ['Helvetica World', 'Oswald', 'Arial Narrow', 'sans-serif'],
+        'giaza': ['Giaza', 'Roboto Condensed', 'Arial Narrow', 'sans-serif'],
+        'metanoia': ['Metanoia', 'Archivo Black', 'Arial Black', 'sans-serif'],
       },
       colors: {
         vintage: {

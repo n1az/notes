@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @font-face {
+            font-family: 'Hangout';
+            src: url('./fonts/quarantype-hangout.woff2') format('woff2'),
+                 url('./fonts/quarantype-hangout.woff') format('woff'),
+                 url('./fonts/quarantype-hangout.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        .hangout-test {
+            font-family: 'Hangout', Arial, sans-serif;
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            margin: 50px;
+        }
+        
+        .fallback-test {
+            font-family: Arial, sans-serif;
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Font Loading Test</h1>
+    <div class="hangout-test">think (Hangout Font)</div>
+    <div class="fallback-test">think (Arial Fallback)</div>
+    
+    <script>
+        // Check if font is loaded
+        document.fonts.ready.then(() => {
+            const hangoutFont = Array.from(document.fonts).find(f => f.family === 'Hangout');
+            if (hangoutFont) {
+                console.log('Hangout font is loaded:', hangoutFont.status);
+            } else {
+                console.log('Hangout font not found in font list');
+            }
+        });
+    </script>
+</body>
+</html>
