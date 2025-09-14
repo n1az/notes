@@ -37,11 +37,28 @@ export default {
           rust: '#B7410E',
           olive: '#6B8E23',
           sage: '#9CAF88',
+          light: '#eedcb2ff',
           // Deep grey colors for the new design
           'deep-grey': '#2D2D2D',
           'medium-grey': '#4A4A4A',
           'light-grey': '#6B6B6B',
           'grey-border': '#8B8B8B',
+        },
+        glass: {
+          // Warm glassmorphism palette
+          'warm-white': 'rgba(255, 252, 247, 0.25)',
+          'warm-cream': 'rgba(248, 246, 240, 0.20)',
+          'warm-beige': 'rgba(232, 226, 212, 0.15)',
+          'warm-brown': 'rgba(139, 69, 19, 0.10)',
+          'warm-gold': 'rgba(212, 175, 55, 0.08)',
+          'warm-orange': 'rgba(205, 133, 63, 0.12)',
+          // Border colors for glass elements
+          'border-light': 'rgba(255, 255, 255, 0.20)',
+          'border-warm': 'rgba(248, 246, 240, 0.30)',
+          'border-accent': 'rgba(212, 175, 55, 0.25)',
+          // Shadow colors
+          'shadow-soft': 'rgba(139, 69, 19, 0.08)',
+          'shadow-warm': 'rgba(101, 67, 33, 0.12)',
         }
       }
     },

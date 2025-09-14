@@ -2,7 +2,6 @@ import { useState, useRef } from 'react'
 import { ArrowLeft, Download, Image as ImageIcon } from 'lucide-react'
 import * as Select from '@radix-ui/react-select'
 import type { Note } from '../types'
-import { cn } from '../lib/utils'
 
 interface NoteEditorProps {
   note: Note
@@ -10,13 +9,6 @@ interface NoteEditorProps {
   onBack: () => void
   onNew: () => void
 }
-
-const backgroundOptions = [
-  { value: 'white', label: 'White Paper', className: 'bg-white' },
-  { value: 'grey-paper', label: 'Grey Paper', className: 'bg-gray-50 vintage-paper' },
-  { value: 'beige-dotted', label: 'Beige Dotted', className: 'bg-vintage-beige vintage-dotted' },
-  { value: 'notebook', label: 'Notebook Lines', className: 'bg-white notebook-lines' }
-]
 
 const fontOptions = [
   { value: 'Inter', label: 'Inter (Modern Sans)' },
@@ -111,202 +103,198 @@ export function NoteEditor({ note, onSave, onBack, onNew }: NoteEditorProps) {
     }
   }
 
-  const getBackgroundClass = () => {
-    const option = backgroundOptions.find(opt => opt.value === currentNote.background)
-    return option?.className || 'bg-white'
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar Controls */}
-      <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
-        {/* Sidebar Header */}
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Style Your Thought</h2>
-          <p className="text-sm text-gray-600">Customize the appearance of your writing</p>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-purple-900 to-slate-800 relative overflow-hidden flex flex-col items-center justify-center p-8">
+      {/* Space Background */}
+      <div className="absolute inset-0">
+        {/* Deep space gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 via-purple-800/30 to-slate-900/50 animate-gradient-shift"></div>
+        
+        {/* Twinkling Stars */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-1 h-1 bg-white rounded-full animate-star-twinkle" style={{animationDelay: '0s'}}></div>
+          <div className="absolute top-20 right-20 w-1.5 h-1.5 bg-blue-200 rounded-full animate-star-twinkle" style={{animationDelay: '1s'}}></div>
+          <div className="absolute top-40 left-1/3 w-1 h-1 bg-yellow-200 rounded-full animate-star-twinkle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-60 right-1/4 w-1.5 h-1.5 bg-white rounded-full animate-star-twinkle" style={{animationDelay: '3s'}}></div>
+          <div className="absolute bottom-40 left-20 w-1 h-1 bg-blue-100 rounded-full animate-star-twinkle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute bottom-60 right-1/3 w-1.5 h-1.5 bg-purple-200 rounded-full animate-star-twinkle" style={{animationDelay: '5s'}}></div>
+          <div className="absolute top-1/3 left-1/4 w-1 h-1 bg-white rounded-full animate-star-twinkle" style={{animationDelay: '6s'}}></div>
+          <div className="absolute bottom-1/3 right-1/5 w-1.5 h-1.5 bg-cyan-200 rounded-full animate-star-twinkle" style={{animationDelay: '7s'}}></div>
+          <div className="absolute top-3/4 left-3/4 w-1 h-1 bg-white rounded-full animate-star-twinkle" style={{animationDelay: '1.5s'}}></div>
+          <div className="absolute bottom-10 left-2/3 w-1.5 h-1.5 bg-blue-300 rounded-full animate-star-twinkle" style={{animationDelay: '8s'}}></div>
         </div>
-
-        {/* Writing Style */}
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Writing Style</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Font Family</label>
-              <Select.Root
-                value={currentNote.fontFamily}
-                onValueChange={(value) => updateNote({ fontFamily: value })}
-              >
-                <Select.Trigger className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm flex items-center justify-between hover:bg-gray-100 transition-colors">
-                  <Select.Value />
-                  <Select.Icon />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-                    <Select.Viewport className="p-2">
-                      {fontOptions.map((option) => (
-                        <Select.Item
-                          key={option.value}
-                          value={option.value}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 rounded-lg"
-                        >
-                          <Select.ItemText>{option.label}</Select.ItemText>
-                        </Select.Item>
-                      ))}
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Font Size</label>
-              <Select.Root
-                value={currentNote.fontSize}
-                onValueChange={(value) => updateNote({ fontSize: value })}
-              >
-                <Select.Trigger className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm flex items-center justify-between hover:bg-gray-100 transition-colors">
-                  <Select.Value />
-                  <Select.Icon />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-                    <Select.Viewport className="p-2">
-                      {fontSizes.map((option) => (
-                        <Select.Item
-                          key={option.value}
-                          value={option.value}
-                          className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 rounded-lg"
-                        >
-                          <Select.ItemText>{option.label}</Select.ItemText>
-                        </Select.Item>
-                      ))}
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div>
+        
+        {/* Moon */}
+        <div className="absolute top-16 right-16 w-32 h-32 rounded-full bg-gradient-to-br from-gray-200 to-gray-400 animate-celestial-float shadow-lg">
+          <div className="absolute top-3 left-3 w-3 h-3 rounded-full bg-gray-500/30"></div>
+          <div className="absolute bottom-4 right-4 w-2 h-2 rounded-full bg-gray-500/40"></div>
+          <div className="absolute top-1/2 left-1/3 w-1.5 h-1.5 rounded-full bg-gray-600/50"></div>
+          <div className="absolute top-1/4 right-1/3 w-1 h-1 rounded-full bg-gray-600/40"></div>
+        </div>
+        
+        {/* Saturn */}
+        <div className="absolute bottom-20 left-16 animate-celestial-float" style={{animationDelay: '6s'}}>
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-300 to-orange-400 relative">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-1 border-2 border-yellow-200/60 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-0.5 border border-yellow-100/40 rounded-full"></div>
           </div>
         </div>
+        
+        {/* Flying Space Objects */}
+        <div className="absolute top-1/4 w-8 h-8 bg-gradient-to-r from-purple-500/40 to-blue-500/30 rounded-full animate-fly-across" style={{animationDelay: '0s'}}></div>
+        <div className="absolute top-1/2 w-6 h-6 bg-gradient-to-r from-cyan-500/40 to-indigo-500/30 rounded-full animate-fly-across" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-3/4 w-10 h-10 bg-gradient-to-r from-violet-500/40 to-purple-500/30 rounded-full animate-fly-across" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/3 w-4 h-4 bg-blue-500/40 transform rotate-45 animate-fly-across" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-2/3 w-5 h-5 bg-indigo-500/40 transform rotate-12 animate-fly-across" style={{animationDelay: '3s'}}></div>
+      </div>
 
-        {/* Visual Theme */}
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Visual Theme</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Text Color</label>
-              <div className="grid grid-cols-4 gap-2">
-                {['#1f2937', '#dc2626', '#059669', '#2563eb', '#7c3aed', '#db2777', '#ea580c', '#65a30d'].map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => updateNote({ textColor: color })}
-                    className={`w-8 h-8 rounded-lg border-2 transition-all ${
-                      currentNote.textColor === color ? 'border-gray-900 scale-110' : 'border-gray-200 hover:border-gray-400'
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Page Background</label>
-              <div className="grid grid-cols-2 gap-3">
-                {backgroundOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => updateNote({ background: option.value as 'white' | 'grey-paper' | 'beige-dotted' | 'notebook' })}
-                    className={`p-3 rounded-xl border-2 text-left transition-all ${
-                      currentNote.background === option.value
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className={`w-full h-6 rounded mb-2 ${option.className}`}></div>
-                    <span className="text-xs font-medium text-gray-700">{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Media */}
-        <div className="p-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Media</h3>
+      {/* Top Bar - First Element */}
+      <div className="w-full max-w-7xl mt-4 mb-4 glass-warm border border-white/20 px-6 py-4 flex items-center justify-between rounded-3xl relative z-10 shadow-lg">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-vintage-light hover:text-white transition-colors duration-200 glass-subtle px-3 py-2 rounded-lg hover:glass-hover"
+        >
+          <ArrowLeft size={20} />
+          <span className="font-medium">Back to Thoughts</span>
+        </button>
+        
+        <div className="flex items-center gap-3">
           <button
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-center hover:border-gray-400 hover:bg-gray-50 transition-colors group"
+            onClick={onNew}
+            className="px-4 py-2 glass-subtle text-vintage-light rounded-lg hover:glass-hover transition-all duration-200 font-medium hover:transform hover:scale-105"
           >
-            <ImageIcon size={24} className="mx-auto mb-2 text-gray-400 group-hover:text-gray-600" />
-            <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800">Add Image</p>
-            <p className="text-xs text-gray-500">Click to upload</p>
+            New Thought
           </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
+          <button
+            onClick={handleExport}
+            className="text-vintage-light hover:text-white transition-colors duration-200 glass-subtle p-2 rounded-lg hover:glass-hover hover:transform hover:scale-105"
+            title="Export as HTML"
+          >
+            <Download size={18} />
+          </button>
+          <button
+            onClick={handleSave}
+            className="glass-card text-vintage-light px-4 py-2 rounded-lg hover:glass-hover transition-all duration-200 text-sm font-medium hover:transform hover:scale-105 border border-white/30"
+          >
+            Save
+          </button>
         </div>
       </div>
 
-      {/* Main Editor Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <button 
-            onClick={onBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="font-medium">Back to Thoughts</span>
-          </button>
-          
-          <div className="flex items-center gap-3">
+      {/* Main Container - Sidebar and Writing Area */}
+      <div className="w-full max-w-7xl flex-1 glass-card rounded-3xl flex relative z-10 shadow-2xl">
+        {/* Sidebar Controls */}
+        <div className="w-80 glass-sidebar flex flex-col rounded-l-3xl border-r border-white/20">
+          {/* Sidebar Header */}
+          <div className="p-6 border-b border-white/20">
+            <h2 className="text-lg font-semibold text-vintage-deep-grey mb-2">Style Your Thought</h2>
+            <p className="text-sm text-vintage-medium-grey">Customize the appearance of your writing</p>
+          </div>
+
+          {/* Writing Style */}
+          <div className="p-6 border-b border-white/20">
+            <h3 className="text-sm font-semibold text-vintage-deep-grey mb-4 uppercase tracking-wide">Writing Style</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-vintage-medium-grey mb-2 uppercase tracking-wide">Font Family</label>
+                <Select.Root
+                  value={currentNote.fontFamily}
+                  onValueChange={(value) => updateNote({ fontFamily: value })}
+                >
+                  <Select.Trigger className="w-full px-4 py-3 glass-subtle border border-white/20 rounded-xl text-sm flex items-center justify-between hover:glass-hover transition-all duration-200 text-vintage-deep-grey">
+                    <Select.Value />
+                    <Select.Icon />
+                  </Select.Trigger>
+                  <Select.Portal>
+                    <Select.Content className="glass-warm border border-white/30 rounded-xl shadow-lg z-50 backdrop-blur-xl">
+                      <Select.Viewport className="p-2">
+                        {fontOptions.map((option) => (
+                          <Select.Item
+                            key={option.value}
+                            value={option.value}
+                            className="px-3 py-2 text-sm cursor-pointer hover:glass-subtle rounded-lg text-vintage-deep-grey"
+                          >
+                            <Select.ItemText>{option.label}</Select.ItemText>
+                          </Select.Item>
+                        ))}
+                      </Select.Viewport>
+                    </Select.Content>
+                  </Select.Portal>
+                </Select.Root>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-vintage-medium-grey mb-2 uppercase tracking-wide">Font Size</label>
+                <Select.Root
+                  value={currentNote.fontSize}
+                  onValueChange={(value) => updateNote({ fontSize: value })}
+                >
+                  <Select.Trigger className="w-full px-4 py-3 glass-subtle border border-white/20 rounded-xl text-sm flex items-center justify-between hover:glass-hover transition-all duration-200 text-vintage-deep-grey">
+                    <Select.Value />
+                    <Select.Icon />
+                  </Select.Trigger>
+                  <Select.Portal>
+                    <Select.Content className="glass-warm border border-white/30 rounded-xl shadow-lg z-50 backdrop-blur-xl">
+                      <Select.Viewport className="p-2">
+                        {fontSizes.map((option) => (
+                          <Select.Item
+                            key={option.value}
+                            value={option.value}
+                            className="px-3 py-2 text-sm cursor-pointer hover:glass-subtle rounded-lg text-vintage-deep-grey"
+                          >
+                            <Select.ItemText>{option.label}</Select.ItemText>
+                          </Select.Item>
+                        ))}
+                      </Select.Viewport>
+                    </Select.Content>
+                  </Select.Portal>
+                </Select.Root>
+              </div>
+            </div>
+          </div>
+
+          {/* Media */}
+          <div className="p-6">
+            <h3 className="text-sm font-semibold text-vintage-deep-grey mb-4 uppercase tracking-wide">Media</h3>
             <button
-              onClick={onNew}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full p-4 border-2 border-dashed border-vintage-medium-grey/50 rounded-xl text-center hover:border-vintage-medium-grey transition-all duration-200 group"
             >
-              New Thought
+              <ImageIcon size={24} className="mx-auto mb-2 text-vintage-medium-grey group-hover:text-vintage-deep-grey transition-colors duration-200" />
+              <p className="text-sm font-medium text-vintage-deep-grey group-hover:text-vintage-darkbrown transition-colors duration-200">Add Image</p>
+              <p className="text-xs text-vintage-medium-grey">Click to upload</p>
             </button>
-            <button
-              onClick={handleExport}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-              title="Export as HTML"
-            >
-              <Download size={18} />
-            </button>
-            <button
-              onClick={handleSave}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-            >
-              Save
-            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </div>
         </div>
 
-        {/* Editor Content */}
-        <div className="flex-1 bg-white m-6 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        {/* Main Editor Area */}
+        <div className="flex-1 flex flex-col rounded-r-3xl">
           {/* Title Input */}
-          <div className="p-8 border-b border-gray-100">
+          <div className="p-8 border-b-2 border-white/20">
             <input
               type="text"
               value={currentNote.title}
               onChange={(e) => updateNote({ title: e.target.value })}
               placeholder="Your thought title goes here..."
-              className="w-full text-3xl font-light text-gray-900 bg-transparent border-none outline-none placeholder-gray-400"
+              className="w-full text-3xl font-light text-vintage-light bg-transparent border-none outline-none placeholder-vintage-light/60"
             />
           </div>
 
           {/* Content Editor */}
-          <div className={cn("p-8", getBackgroundClass())}>
+          <div className="flex-1 p-8">
             <div
               ref={editorRef}
               contentEditable
               dangerouslySetInnerHTML={{ __html: currentNote.content }}
-              className="min-h-[400px] outline-none text-lg leading-relaxed text-gray-700"
+              className="min-h-full outline-none text-lg leading-relaxed"
               style={{
                 fontFamily: currentNote.fontFamily,
                 fontSize: currentNote.fontSize,
