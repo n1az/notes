@@ -1,124 +1,120 @@
 import { useState, useEffect } from 'react'
-import { Dashboard } from './components/Dashboard'
-import { NoteEditor } from './components/NoteEditor'
-import { NoteReader } from './components/NoteReader'
-import { notesStorage, createEmptyNote } from './utils/storage'
-import type { Note, ViewMode } from './types'
+import { HeroSection } from './components/sections/HeroSection'
+import WorksSection from './components/WorksSection'
+import ThinksSection from './components/ThinksSection'
+import AboutSection from './components/AboutSection'
+import ErrorBoundary from './components/shared/ErrorBoundary'
+import FloatingNav from './components/shared/FloatingNav'
+import ScrollProgress from './components/shared/ScrollProgress'
+import { personalInfo, portfolioWorks, portfolioThinks } from './data/portfolio'
+import type { PortfolioView } from './types'
 
 function App() {
-  const [currentView, setCurrentView] = useState<ViewMode>('dashboard')
-  const [notes, setNotes] = useState<Note[]>([])
-  const [currentNote, setCurrentNote] = useState<Note | null>(null)
+  const [currentView, setCurrentView] = useState<PortfolioView>('hero')
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Load notes from storage on mount
+  // Initialize app
   useEffect(() => {
-    const savedNotes = notesStorage.initializeWithSeedData()
-    setNotes(savedNotes)
+    // Simulate initial loading
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+
+    return () => clearTimeout(timer)
   }, [])
 
-  // Add keyboard shortcuts
+  // Handle navigation between sections with smooth scrolling
+  const handleNavigate = (section: PortfolioView) => {
+    setCurrentView(section)
+    
+    // Smooth scroll to section
+    const element = document.getElementById(section)
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+    
+    console.log(`Navigating to: ${section}`)
+  }
+
+  // Scroll spy to update active section
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Ctrl/Cmd + N for new note
-      if ((event.ctrlKey || event.metaKey) && event.key === 'n') {
-        event.preventDefault()
-        if (currentView === 'dashboard') {
-          handleCreateNote()
+    const handleScroll = () => {
+      const sections = ['hero', 'works', 'thinks', 'about']
+      const scrollPosition = window.scrollY + window.innerHeight / 2
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          const elementTop = rect.top + window.scrollY
+          const elementBottom = elementTop + rect.height
+
+          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+            setCurrentView(section as PortfolioView)
+            break
+          }
         }
       }
-      
-      // Escape to go back to dashboard
-      if (event.key === 'Escape' && currentView !== 'dashboard') {
-        event.preventDefault()
-        handleBackToDashboard()
-      }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [currentView])
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const handleCreateNote = () => {
-    const newNote = createEmptyNote()
-    setCurrentNote(newNote)
-    setCurrentView('editor')
-  }
-
-  const handleSelectNote = (note: Note) => {
-    setCurrentNote(note)
-    setCurrentView('reader')
-  }
-
-  const handleEditNote = () => {
-    if (currentNote) {
-      setCurrentView('editor')
-    }
-  }
-
-  const handleSaveNote = (note: Note) => {
-    notesStorage.saveNote(note)
-    setCurrentNote(note)
-    
-    // Update notes list
-    const updatedNotes = notesStorage.getAllNotes()
-    setNotes(updatedNotes)
-    
-    // Stay in editor or go back to dashboard
-    setCurrentView('dashboard')
-  }
-
-  const handleDeleteNote = () => {
-    if (currentNote) {
-      notesStorage.deleteNote(currentNote.id)
-      
-      // Update notes list
-      const updatedNotes = notesStorage.getAllNotes()
-      setNotes(updatedNotes)
-      
-      // Go back to dashboard
-      setCurrentNote(null)
-      setCurrentView('dashboard')
-    }
-  }
-
-  const handleBackToDashboard = () => {
-    setCurrentNote(null)
-    setCurrentView('dashboard')
-  }
-
-  const handleNewNote = () => {
-    const newNote = createEmptyNote()
-    setCurrentNote(newNote)
-    // Stay in editor view
+  // Loading screen
+  if (isLoading) {
+    return (
+      <div className="h-screen bg-gradient-to-br from-retro-space-navy to-retro-deep-purple flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-retro-electric-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-retro-white font-body text-lg">Loading Portfolio...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="app">
-      {currentView === 'dashboard' && (
-        <Dashboard
-          notes={notes}
-          onCreateNote={handleCreateNote}
-          onSelectNote={handleSelectNote}
-        />
-      )}
+    <div className="app bg-retro-space-navy">
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
       
-      {currentView === 'editor' && currentNote && (
-        <NoteEditor
-          note={currentNote}
-          onSave={handleSaveNote}
-          onBack={handleBackToDashboard}
-          onNew={handleNewNote}
-        />
-      )}
+      {/* Floating Navigation */}
+      <FloatingNav currentSection={currentView} onNavigate={handleNavigate} />
       
-      {currentView === 'reader' && currentNote && (
-        <NoteReader
-          note={currentNote}
-          onBack={handleBackToDashboard}
-          onEdit={handleEditNote}
-          onDelete={handleDeleteNote}
-        />
-      )}
+      {/* Hero Section */}
+      <section id="hero" className="min-h-screen">
+        <ErrorBoundary>
+          <HeroSection
+            personalInfo={personalInfo}
+            isVisible={currentView === 'hero'}
+            onNavigate={handleNavigate}
+          />
+        </ErrorBoundary>
+      </section>
+      
+      {/* Works Section */}
+      <section id="works" className="min-h-screen">
+        <ErrorBoundary>
+          <WorksSection works={portfolioWorks} />
+        </ErrorBoundary>
+      </section>
+      
+      {/* Thinks Section */}
+      <section id="thinks" className="min-h-screen">
+        <ErrorBoundary>
+          <ThinksSection thinks={portfolioThinks} />
+        </ErrorBoundary>
+      </section>
+      
+      {/* About Section */}
+      <section id="about" className="min-h-screen">
+        <ErrorBoundary>
+          <AboutSection personalInfo={personalInfo} onNavigate={handleNavigate} />
+        </ErrorBoundary>
+      </section>
     </div>
   )
 }

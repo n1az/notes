@@ -1,5 +1,369 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Fira+Code:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Fredoka+One:wght@400&family=Righteous:wght@400&family=Creepster:wght@400&family=Nosifer:wght@400&family=Griffy:wght@400&family=Rye:wght@400&family=Bebas+Neue:wght@400&family=Orbitron:wght@400;700;900&family=Kanit:wght@300;400;600;700&family=Oswald:wght@300;400;600;700&family=Roboto+Condensed:wght@300;400;700&family=Archivo+Black:wght@400&family=Anton:wght@400&family=Impact:wght@400&display=swap');
 
+/* Custom font faces for portfolio fonts */
+@font-face {
+  font-family: 'Metanoia';
+  src: url('/fonts/Metanoia.eot');
+  src: local('Metanoia Regular'), local('Metanoia'),
+       url('/fonts/Metanoia.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/Metanoia.woff2') format('woff2'),
+       url('/fonts/Metanoia.woff') format('woff'),
+       url('/fonts/Metanoia.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hangout';
+  src: url('/fonts/quarantype-hangout.woff2') format('woff2'),
+       url('/fonts/quarantype-hangout.woff') format('woff'),
+       url('/fonts/quarantype-hangout.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LIHAM';
+  src: url('/fonts/Liham 2.0.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ITC Bauhaus';
+  src: url('/fonts/BauhausStd-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica World';
+  src: url('/fonts/HelveticaWorld-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Giaza';
+  src: url('/fonts/Giaza.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Giaza Stencil';
+  src: url('/fonts/Giaza Stencil.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global base styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Helvetica World', 'Oswald', 'Arial Narrow', sans-serif;
+    background: linear-gradient(135deg, #0A0E27 0%, #1A1A2E 50%, #16213E 100%);
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(26, 26, 46, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00D4FF, #9D4EDD);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #00FFFF, #FF006E);
+  }
+}
+
+/* Component utilities */
+@layer components {
+  /* Glass morphism effects */
+  .glass-card {
+    @apply bg-glass-primary border border-glass-border-primary backdrop-blur-md;
+  }
+
+  .glass-dark {
+    @apply bg-glass-dark border border-glass-border-light backdrop-blur-md;
+  }
+
+  /* Retro glow effects */
+  .retro-glow-blue {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.6), 0 0 30px rgba(0, 212, 255, 0.4);
+  }
+
+  .retro-glow-purple {
+    text-shadow: 0 0 10px rgba(157, 78, 221, 0.8), 0 0 20px rgba(157, 78, 221, 0.6), 0 0 30px rgba(157, 78, 221, 0.4);
+  }
+
+  .retro-glow-orange {
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.8), 0 0 20px rgba(255, 107, 53, 0.6), 0 0 30px rgba(255, 107, 53, 0.4);
+  }
+
+  /* Button styles */
+  .btn-retro {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105;
+  }
+
+  .btn-retro-primary {
+    @apply btn-retro bg-gradient-to-r from-retro-electric-blue to-retro-neon-cyan text-retro-space-navy;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+  }
+
+  .btn-retro-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+  }
+
+  .btn-retro-secondary {
+    @apply btn-retro bg-gradient-to-r from-retro-neon-purple to-retro-hot-pink text-retro-white;
+    box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
+  }
+
+  .btn-retro-secondary:hover {
+    box-shadow: 0 6px 20px rgba(157, 78, 221, 0.6);
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-20 px-6 md:py-32 md:px-8;
+  }
+
+  /* Content containers */
+  .container-sm {
+    @apply max-w-2xl mx-auto;
+  }
+
+  .container-md {
+    @apply max-w-4xl mx-auto;
+  }
+
+  .container-lg {
+    @apply max-w-6xl mx-auto;
+  }
+
+  .container-xl {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Grid layouts */
+  .grid-works {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+
+  .grid-thinks {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+  }
+
+  /* Typography utilities */
+  .heading-1 {
+    @apply font-hero text-4xl md:text-6xl lg:text-7xl font-bold leading-tight;
+  }
+
+  .heading-2 {
+    @apply font-hero text-3xl md:text-4xl lg:text-5xl font-bold leading-tight;
+  }
+
+  .heading-3 {
+    @apply font-display text-2xl md:text-3xl font-semibold leading-tight;
+  }
+
+  .heading-4 {
+    @apply font-display text-xl md:text-2xl font-semibold leading-tight;
+  }
+
+  .body-lg {
+    @apply font-body text-lg md:text-xl leading-relaxed;
+  }
+
+  .body-md {
+    @apply font-body text-base md:text-lg leading-relaxed;
+  }
+
+  .body-sm {
+    @apply font-body text-sm md:text-base leading-relaxed;
+  }
+
+  /* Legacy vintage modern styles for compatibility */
+  .vintage-paper {
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 80% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  
+  .vintage-dotted {
+    background-image: radial-gradient(circle, rgba(139, 69, 19, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .notebook-lines {
+    background-image: 
+      linear-gradient(to bottom, transparent 0%, transparent 29px, rgba(139, 69, 19, 0.1) 30px);
+    background-size: 100% 30px;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  /* Animation utilities */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-gradient-shift {
+    animation: gradient-shift 8s ease-in-out infinite;
+    background-size: 200% 200%;
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl;
+  }
+
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl;
+  }
+
+  .text-responsive-3xl {
+    @apply text-3xl sm:text-4xl md:text-5xl;
+  }
+
+  .text-responsive-4xl {
+    @apply text-4xl sm:text-5xl md:text-6xl;
+  }
+}
+
+/* Keyframe animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes star-twinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes celestial-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-15px) translateX(10px);
+  }
+  66% {
+    transform: translateY(-5px) translateX(-10px);
+  }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
 /* Custom font faces for Canva-inspired fonts */
 @font-face {
   font-family: 'Hangout';
