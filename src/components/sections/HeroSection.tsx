@@ -4,8 +4,9 @@ import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react'
 import { ThreeBackground } from '../shared/ThreeBackground'
 import { ParticlePreset } from '../shared/ParticleSystem'
 import { FloatingShapes } from '../shared/GeometricShape'
+import { ParallaxText, HoverParallaxText } from '../shared/ParallaxText'
+import { NeoBrutalistButton } from '../shared/NeoBrutalistCard'
 import type { PersonalInfo, PortfolioView, ThreeSceneConfig } from '../../types'
-import { cn } from '../../lib/utils'
 
 interface HeroSectionProps {
   personalInfo: PersonalInfo
@@ -51,7 +52,7 @@ export function HeroSection({ personalInfo, isVisible, onNavigate }: HeroSection
     particles: {
       count: 500,
       speed: 0.5,
-      color: '#00D4FF',
+      color: '#000000',
       pattern: 'constellation',
       interactive: true
     },
@@ -60,11 +61,11 @@ export function HeroSection({ personalInfo, isVisible, onNavigate }: HeroSection
       fov: 75
     },
     controls: false,
-    fog: true
+    fog: false
   }
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-retro-space-navy">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-[#F5F1E8]">
       {/* Three.js Background */}
       <ThreeBackground
         config={threeConfig}
@@ -79,79 +80,75 @@ export function HeroSection({ personalInfo, isVisible, onNavigate }: HeroSection
         <FloatingShapes count={6} />
       </ThreeBackground>
 
-      {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-retro-space-navy/20 to-retro-space-navy/40 z-10" />
-
       {/* Main content */}
-      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-        {/* Main name */}
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 50 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="font-hangout text-9xl md:text-8xl lg:text-9xl font-bold text-retro-white mb-6 leading-none tracking-tight"
-          style={{
-            textShadow: '0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(157, 78, 221, 0.3)'
-          }}
-        >
-          {personalInfo.name || "think"}
-        </motion.h1>
+      <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
+        {/* Main name with parallax */}
+        <HoverParallaxText intensity={0.3}>
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 50 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="font-metanoia text-8xl md:text-9xl lg:text-[12rem] font-black text-brutal-black mb-8 leading-none tracking-tighter uppercase"
+            style={{
+              WebkitTextStroke: '4px #FFFFFF',
+              textShadow: '8px 8px 0px #FFFFFF',
+            }}
+          >
+            {personalInfo.name || "think"}
+          </motion.h1>
+        </HoverParallaxText>
 
-        {/* Typewriter subtitle */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="font-body text-xl md:text-2xl lg:text-3xl text-retro-electric-blue mb-8 h-12 flex items-center justify-center"
-        >
-          <span className="mr-1">{typedText}</span>
-          {showCursor && <span className="animate-pulse">|</span>}
-        </motion.div>
+        {/* Typewriter subtitle with parallax */}
+        <ParallaxText speed={0.5} enableHover hoverRange={5}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isVisible ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="inline-block bg-brutal-yellow border-6 border-brutal-black px-8 py-4 mb-10 shadow-brutal-lg"
+          >
+            <span className="font-bauhaus text-2xl md:text-3xl lg:text-4xl font-bold text-brutal-black uppercase tracking-wide">
+              {typedText}
+              {showCursor && <span className="animate-pulse ml-1">|</span>}
+            </span>
+          </motion.div>
+        </ParallaxText>
 
         {/* Bio text */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 1.5 }}
-          className="font-body text-lg md:text-xl text-retro-light-gray max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="font-helvetica-world text-xl md:text-2xl text-brutal-white font-bold max-w-3xl mx-auto mb-14 leading-relaxed bg-brutal-black border-5 border-brutal-black px-8 py-6 shadow-[8px_8px_0px_0px_#000000]"
         >
           {personalInfo.bio || "Crafting digital experiences with modern technology and retro aesthetics."}
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons with neo-brutalist style */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
           transition={{ duration: 0.8, delay: 2 }}
-          className="flex flex-col sm:flex-row gap-6 items-center justify-center mb-16"
+          className="flex flex-col sm:flex-row gap-8 items-center justify-center mb-16"
         >
-          <button
+          <NeoBrutalistButton
             onClick={() => onNavigate('works')}
-            className={cn(
-              "group relative px-8 py-4 bg-glass-primary border border-glass-border-primary rounded-lg",
-              "backdrop-blur-md hover:bg-glass-light transition-all duration-300",
-              "font-accent text-lg font-semibold text-retro-white",
-              "hover:scale-105 hover:shadow-lg hover:shadow-retro-electric-blue/25"
-            )}
+            backgroundColor="bg-brutal-cyan"
+            shadowColor="#000000"
           >
-            <span className="relative z-10">View My Works</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-retro-electric-blue/20 to-retro-neon-purple/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </button>
+            View My Works
+          </NeoBrutalistButton>
 
-          <button
+          <NeoBrutalistButton
             onClick={() => onNavigate('thinks')}
-            className={cn(
-              "group px-8 py-4 border-2 border-retro-electric-blue rounded-lg",
-              "font-accent text-lg font-semibold text-retro-electric-blue",
-              "hover:bg-retro-electric-blue hover:text-retro-space-navy transition-all duration-300",
-              "hover:scale-105 hover:shadow-lg hover:shadow-retro-electric-blue/25"
-            )}
+            backgroundColor="bg-brutal-pink"
+            textColor="text-brutal-white"
+            shadowColor="#000000"
           >
             Read My Thinks
-          </button>
+          </NeoBrutalistButton>
         </motion.div>
 
-        {/* Social Links */}
+        {/* Social Links with neo-brutalist style */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
@@ -163,9 +160,9 @@ export function HeroSection({ personalInfo, isVisible, onNavigate }: HeroSection
               href={personalInfo.social.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-glass-dark border border-glass-border-light rounded-full backdrop-blur-md hover:bg-glass-light transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-retro-electric-blue/25"
+              className="p-4 bg-brutal-white border-5 border-brutal-black hover:bg-brutal-lime transition-all duration-200 shadow-brutal hover:shadow-[4px_4px_0px_0px_#000000] hover:translate-x-1 hover:translate-y-1"
             >
-              <Github size={24} className="text-retro-white" />
+              <Github size={28} className="text-brutal-black" />
             </a>
           )}
           {personalInfo.social?.linkedin && (
@@ -173,43 +170,43 @@ export function HeroSection({ personalInfo, isVisible, onNavigate }: HeroSection
               href={personalInfo.social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-glass-dark border border-glass-border-light rounded-full backdrop-blur-md hover:bg-glass-light transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-retro-neon-purple/25"
+              className="p-4 bg-brutal-white border-5 border-brutal-black hover:bg-brutal-blue transition-all duration-200 shadow-brutal hover:shadow-[4px_4px_0px_0px_#000000] hover:translate-x-1 hover:translate-y-1"
             >
-              <Linkedin size={24} className="text-retro-white" />
+              <Linkedin size={28} className="text-brutal-black" />
             </a>
           )}
           {personalInfo.email && (
             <a
               href={`mailto:${personalInfo.email}`}
-              className="p-3 bg-glass-dark border border-glass-border-light rounded-full backdrop-blur-md hover:bg-glass-light transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-retro-sunset-orange/25"
+              className="p-4 bg-brutal-white border-5 border-brutal-black hover:bg-brutal-orange transition-all duration-200 shadow-brutal hover:shadow-[4px_4px_0px_0px_#000000] hover:translate-x-1 hover:translate-y-1"
             >
-              <Mail size={24} className="text-retro-white" />
+              <Mail size={28} className="text-brutal-black" />
             </a>
           )}
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator with neo-brutalist style */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 0.8, delay: 3 }}
-          className="flex flex-col items-center cursor-pointer"
+          className="flex flex-col items-center cursor-pointer group"
           onClick={() => onNavigate('works')}
         >
-          <span className="font-body text-sm text-retro-light-gray mb-2 tracking-wide">
+          <span className="font-bauhaus text-sm text-brutal-white font-bold mb-3 tracking-widest uppercase bg-brutal-black px-4 py-2 border-3 border-brutal-white">
             Scroll to explore
           </span>
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="p-2 border border-retro-electric-blue/50 rounded-full"
+            className="p-3 border-5 border-brutal-white bg-brutal-yellow group-hover:bg-brutal-lime transition-colors duration-200 shadow-[6px_6px_0px_0px_#FFFFFF]"
           >
-            <ChevronDown size={20} className="text-retro-electric-blue" />
+            <ChevronDown size={24} className="text-brutal-black" strokeWidth={3} />
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Ambient glow effects */}
+      {/* Ambient glow effects - keep for 3D background */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-retro-electric-blue/10 rounded-full blur-3xl animate-pulse-glow z-0" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-retro-neon-purple/10 rounded-full blur-3xl animate-pulse-glow z-0" style={{ animationDelay: '1s' }} />
     </section>

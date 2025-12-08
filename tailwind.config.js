@@ -34,7 +34,37 @@ export default {
         'metanoia': ['Metanoia', 'Archivo Black', 'Arial Black', 'sans-serif'],
       },
       colors: {
-        // Modern Retro Color Palette
+        // Neo-Brutalist Color Palette
+        brutal: {
+          // Primary
+          'black': '#000000',
+          'white': '#FFFFFF',
+          
+          // Bold Accent Colors (flat, no gradients)
+          'yellow': '#FFFF00',
+          'pink': '#FF006E',
+          'cyan': '#00F0FF',
+          'lime': '#CCFF00',
+          'blue': '#0066FF',
+          'orange': '#FF6600',
+          'purple': '#9933FF',
+          'red': '#FF0000',
+          'green': '#00FF00',
+          
+          // Beige/Cream backgrounds for neo-brutalism
+          'beige': '#F5F1E8',
+          'beige-dark': '#E8E3D6',
+          'cream': '#F0EAD6',
+          'sand': '#EDE4D3',
+          
+          // Grays for subtle backgrounds
+          'gray-50': '#F9F9F9',
+          'gray-100': '#F0F0F0',
+          'gray-200': '#E0E0E0',
+          'gray-900': '#1A1A1A',
+        },
+        
+        // Keep retro colors for 3D backgrounds (particles, etc.)
         retro: {
           // Electric Blues & Cyans
           'electric-blue': '#00D4FF',
@@ -65,38 +95,6 @@ export default {
           'cosmic-black': '#1A1A2E',
           'deep-space': '#16213E',
           'dark-purple': '#0F0C29',
-          
-          // Light Accents
-          'white': '#FFFFFF',
-          'warm-white': '#FFF8F0',
-          'light-gray': '#F0F0F0',
-          'silver': '#C0C0C0',
-        },
-        
-        // Glass Morphism Effects
-        glass: {
-          // Primary glass overlays
-          'primary': 'rgba(0, 212, 255, 0.15)',
-          'secondary': 'rgba(157, 78, 221, 0.15)',
-          'accent': 'rgba(255, 107, 53, 0.15)',
-          
-          // Dark glass backgrounds
-          'dark': 'rgba(26, 26, 46, 0.8)',
-          'darker': 'rgba(10, 14, 39, 0.9)',
-          
-          // Light glass overlays
-          'light': 'rgba(255, 255, 255, 0.1)',
-          'lighter': 'rgba(255, 255, 255, 0.05)',
-          
-          // Border colors for glass elements
-          'border-light': 'rgba(255, 255, 255, 0.2)',
-          'border-primary': 'rgba(0, 212, 255, 0.3)',
-          'border-accent': 'rgba(255, 107, 53, 0.3)',
-          
-          // Shadow colors for depth
-          'shadow-primary': 'rgba(0, 212, 255, 0.2)',
-          'shadow-accent': 'rgba(255, 107, 53, 0.2)',
-          'shadow-dark': 'rgba(0, 0, 0, 0.3)',
         },
         
         // Legacy vintage colors for compatibility
@@ -119,7 +117,26 @@ export default {
         },
       },
       
-      // Modern Retro Animations
+      // Neo-Brutalist specific utilities
+      boxShadow: {
+        'brutal': '8px 8px 0px 0px #000000',
+        'brutal-lg': '12px 12px 0px 0px #000000',
+        'brutal-xl': '16px 16px 0px 0px #000000',
+        'brutal-yellow': '8px 8px 0px 0px #FFFF00',
+        'brutal-pink': '8px 8px 0px 0px #FF006E',
+        'brutal-cyan': '8px 8px 0px 0px #00F0FF',
+        'brutal-lime': '8px 8px 0px 0px #CCFF00',
+      },
+      
+      borderWidth: {
+        '3': '3px',
+        '5': '5px',
+        '6': '6px',
+        '7': '7px',
+        '8': '8px',
+      },
+      
+      // Modern Retro Animations (keep for 3D elements)
       animation: {
         'float': 'float 3s ease-in-out infinite',
         'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
@@ -127,6 +144,7 @@ export default {
         'gradient-shift': 'gradient-shift 8s ease-in-out infinite',
         'star-twinkle': 'star-twinkle 2s ease-in-out infinite alternate',
         'celestial-float': 'celestial-float 6s ease-in-out infinite',
+        'parallax-hover': 'parallax-hover 0.3s ease-out',
       },
       
       keyframes: {
@@ -155,6 +173,10 @@ export default {
           '0%, 100%': { transform: 'translateY(0px) translateX(0px)' },
           '33%': { transform: 'translateY(-15px) translateX(10px)' },
           '66%': { transform: 'translateY(-5px) translateX(-10px)' },
+        },
+        'parallax-hover': {
+          '0%': { transform: 'translate3d(0, 0, 0)' },
+          '100%': { transform: 'translate3d(var(--parallax-x), var(--parallax-y), 0)' },
         },
       },
       

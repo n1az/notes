@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Text, OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
+import { NeoBrutalistCard, NeoBrutalistButton } from './shared/NeoBrutalistCard';
+import { HoverParallaxText } from './shared/ParallaxText';
 import type { PersonalInfo, PortfolioView } from '../types';
 
 interface AboutSectionProps {
@@ -92,25 +94,19 @@ const ContactLink: React.FC<{
   href: string;
   icon: React.ReactNode;
   label: string;
-  color: string;
-}> = ({ href, icon, label, color }) => (
-  <motion.a
+  bgColor: string;
+}> = ({ href, icon, label, bgColor }) => (
+  <a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className={`flex items-center gap-3 p-4 glass-card rounded-xl hover:bg-gradient-to-r transition-all duration-300`}
-    style={{
-      '--hover-from': color,
-      '--hover-to': color + '80'
-    } as React.CSSProperties}
+    className={`flex items-center gap-3 p-4 ${bgColor} border-5 border-brutal-black hover:translate-x-1 hover:translate-y-1 transition-all duration-200 shadow-brutal hover:shadow-[4px_4px_0px_0px_#000000]`}
   >
-    <div className="text-2xl" style={{ color }}>
+    <div className="text-2xl">
       {icon}
     </div>
-    <span className="font-body text-retro-white font-semibold">{label}</span>
-  </motion.a>
+    <span className="font-bauhaus text-brutal-black font-bold uppercase text-sm">{label}</span>
+  </a>
 );
 
 const AboutSection: React.FC<AboutSectionProps> = ({ personalInfo, onNavigate }) => {
@@ -123,7 +119,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ personalInfo, onNavigate })
   ];
 
   return (
-    <section className="section-padding relative min-h-screen">
+    <section className="section-padding relative min-h-screen bg-[#F0EAD6]">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 6], fov: 75 }}>
@@ -169,93 +165,110 @@ const AboutSection: React.FC<AboutSectionProps> = ({ personalInfo, onNavigate })
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="space-y-10"
           >
             {/* Section Header */}
             <div>
-              <h2 className="font-display text-4xl md:text-6xl font-bold text-retro-white mb-6 retro-glow-blue">
-                About Me
-              </h2>
-              <p className="body-lg text-retro-gray-light leading-relaxed">
-                {personalInfo.bio || 
-                  "A creative developer passionate about building immersive digital experiences that bridge the gap between design and technology. I specialize in modern web development with a focus on 3D graphics, interactive interfaces, and user-centered design."}
-              </p>
+              <HoverParallaxText intensity={0.4}>
+                <h2 className="font-metanoia text-6xl md:text-7xl font-black text-brutal-white mb-8 uppercase" style={{
+                  WebkitTextStroke: '3px #000000',
+                  textShadow: '6px 6px 0px #000000'
+                }}>
+                  About Me
+                </h2>
+              </HoverParallaxText>
+              <div className="bg-brutal-white border-6 border-brutal-black p-6 shadow-brutal-lg">
+                <p className="font-helvetica-world text-lg text-brutal-black font-bold leading-relaxed">
+                  {personalInfo.bio || 
+                    "A creative developer passionate about building immersive digital experiences that bridge the gap between design and technology. I specialize in modern web development with a focus on 3D graphics, interactive interfaces, and user-centered design."}
+                </p>
+              </div>
             </div>
 
             {/* Experience highlights */}
             <div className="space-y-6">
-              <h3 className="font-display text-2xl text-retro-electric-blue mb-4">
-                What I Do
-              </h3>
+              <div className="inline-block bg-brutal-cyan border-5 border-brutal-black px-6 py-3 shadow-brutal">
+                <h3 className="font-bauhaus text-2xl text-brutal-black font-bold uppercase">
+                  What I Do
+                </h3>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { title: 'Frontend Development', desc: 'React, TypeScript, Next.js' },
-                  { title: '3D Graphics', desc: 'Three.js, WebGL, Spline' },
-                  { title: 'UI/UX Design', desc: 'Figma, Adobe Creative Suite' },
-                  { title: 'Backend Development', desc: 'Node.js, Python, Databases' }
+                  { title: 'Frontend Development', desc: 'React, TypeScript, Next.js', color: 'bg-brutal-yellow' },
+                  { title: '3D Graphics', desc: 'Three.js, WebGL, Spline', color: 'bg-brutal-pink' },
+                  { title: 'UI/UX Design', desc: 'Figma, Adobe Creative Suite', color: 'bg-brutal-lime' },
+                  { title: 'Backend Development', desc: 'Node.js, Python, Databases', color: 'bg-brutal-blue' }
                 ].map((item, index) => (
                   <motion.div
                     key={item.title}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
-                    className="glass-card p-4 rounded-lg"
                   >
-                    <h4 className="font-body font-semibold text-retro-white mb-2">
-                      {item.title}
-                    </h4>
-                    <p className="text-sm text-retro-gray-medium">
-                      {item.desc}
-                    </p>
+                    <NeoBrutalistCard
+                      backgroundColor={item.color}
+                      borderWidth="border-5"
+                      shadowOffset="6px"
+                      className="p-5 h-full"
+                    >
+                      <h4 className="font-metanoia font-black text-brutal-black mb-2 text-xl uppercase">
+                        {item.title}
+                      </h4>
+                      <p className="font-bauhaus text-sm text-brutal-black font-bold">
+                        {item.desc}
+                      </p>
+                    </NeoBrutalistCard>
                   </motion.div>
                 ))}
               </div>
             </div>
 
             {/* Contact links */}
-            <div className="space-y-4">
-              <h3 className="font-display text-2xl text-retro-neon-purple mb-4">
-                Let's Connect
-              </h3>
+            <div className="space-y-6">
+              <div className="inline-block bg-brutal-purple border-5 border-brutal-black px-6 py-3 shadow-brutal">
+                <h3 className="font-bauhaus text-2xl text-brutal-white font-bold uppercase">
+                  Let's Connect
+                </h3>
+              </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ContactLink
                   href={personalInfo.social?.github || "#"}
                   icon="🐙"
                   label="GitHub"
-                  color="#00D4FF"
+                  bgColor="bg-brutal-cyan"
                 />
                 <ContactLink
                   href={personalInfo.social?.linkedin || "#"}
                   icon="💼"
                   label="LinkedIn"
-                  color="#9D4EDD"
+                  bgColor="bg-brutal-blue"
                 />
                 <ContactLink
                   href={`mailto:${personalInfo.email || 'hello@example.com'}`}
                   icon="📧"
                   label="Email"
-                  color="#FF6B35"
+                  bgColor="bg-brutal-orange"
                 />
                 <ContactLink
                   href={personalInfo.social?.twitter || "#"}
                   icon="🐦"
                   label="Twitter"
-                  color="#00FF87"
+                  bgColor="bg-brutal-lime"
                 />
               </div>
             </div>
 
             {/* Navigation button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <NeoBrutalistButton
               onClick={() => onNavigate('hero')}
-              className="btn-retro-primary"
+              backgroundColor="bg-brutal-pink"
+              textColor="text-brutal-white"
+              className="px-8 py-4"
             >
               Back to Top
-            </motion.button>
+            </NeoBrutalistButton>
           </motion.div>
 
           {/* Right side - 3D space for interaction */}
@@ -263,13 +276,23 @@ const AboutSection: React.FC<AboutSectionProps> = ({ personalInfo, onNavigate })
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-96 lg:h-full min-h-[400px] glass-card rounded-xl p-4"
+            className="h-96 lg:h-full min-h-[400px]"
           >
-            <div className="text-center text-retro-gray-light mb-4">
-              <p className="text-sm">Interactive 3D Skills Visualization</p>
-              <p className="text-xs">Drag to rotate • Hover to interact</p>
-            </div>
-            {/* 3D space is handled by the background canvas */}
+            <NeoBrutalistCard
+              backgroundColor="bg-brutal-white"
+              borderWidth="border-6"
+              shadowOffset="12px"
+              className="p-6 h-full flex flex-col"
+              hoverEffect={false}
+            >
+              <div className="text-center mb-4">
+                <div className="inline-block bg-brutal-yellow border-4 border-brutal-black px-4 py-2 mb-2 shadow-[4px_4px_0px_0px_#000000]">
+                  <p className="font-bauhaus text-sm text-brutal-black font-bold uppercase">Interactive 3D Skills</p>
+                </div>
+                <p className="font-bauhaus text-xs text-brutal-black font-bold uppercase">Drag to rotate • Hover to interact</p>
+              </div>
+              {/* 3D space is handled by the background canvas */}
+            </NeoBrutalistCard>
           </motion.div>
         </div>
       </div>

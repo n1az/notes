@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NeoBrutalistCard, NeoBrutalistButton, NeoBrutalistBadge } from './shared/NeoBrutalistCard';
+import { HoverParallaxText } from './shared/ParallaxText';
 import type { Work } from '../types';
 
 interface WorksSectionProps {
@@ -111,40 +113,43 @@ const ProjectCard: React.FC<{ work: Work; index: number }> = ({ work, index }) =
         </Canvas>
       </div>
 
-      {/* Project Info Card */}
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        className="glass-card p-6 rounded-xl relative overflow-hidden"
+      {/* Project Info Card - Neo-Brutalist */}
+      <NeoBrutalistCard
+        backgroundColor="bg-brutal-white"
+        borderColor="border-brutal-black"
+        shadowColor="#000000"
+        borderWidth="border-6"
+        shadowOffset="10px"
+        hoverEffect={true}
+        className="p-6"
       >
-        {/* Background gradient on hover */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 0.1 : 0 }}
-          className="absolute inset-0 bg-gradient-to-br from-retro-electric-blue via-retro-neon-purple to-retro-hot-pink"
-        />
-
         <div className="relative z-10">
           {/* Category badge */}
-          <span className="inline-block px-3 py-1 text-xs font-semibold bg-gradient-to-r from-retro-electric-blue to-retro-neon-cyan text-retro-space-navy rounded-full mb-3">
-            {work.category.toUpperCase()}
-          </span>
+          <NeoBrutalistBadge 
+            color={work.category === 'web' ? 'cyan' : work.category === 'mobile' ? 'pink' : work.category === 'design' ? 'yellow' : 'lime'}
+            className="mb-4"
+          >
+            {work.category}
+          </NeoBrutalistBadge>
 
-          {/* Project title */}
-          <h3 className="heading-4 text-retro-white mb-3 group-hover:retro-glow-blue transition-all duration-300">
-            {work.title}
-          </h3>
+          {/* Project title with parallax */}
+          <HoverParallaxText intensity={0.2}>
+            <h3 className="font-metanoia text-3xl font-black text-brutal-black mb-4 uppercase leading-tight">
+              {work.title}
+            </h3>
+          </HoverParallaxText>
 
           {/* Description */}
-          <p className="body-sm text-retro-gray-light mb-4 line-clamp-3">
+          <p className="font-helvetica-world text-base text-brutal-black font-medium mb-5 leading-relaxed">
             {work.description}
           </p>
 
           {/* Technologies */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-5">
             {work.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-1 text-xs bg-retro-space-navy/50 text-retro-electric-blue rounded border border-retro-electric-blue/30"
+                className="px-3 py-1 text-sm font-bauhaus font-bold bg-brutal-gray-100 text-brutal-black border-3 border-brutal-black uppercase"
               >
                 {tech}
               </span>
@@ -157,34 +162,29 @@ const ProjectCard: React.FC<{ work: Work; index: number }> = ({ work, index }) =
           </div>
 
           {/* Links */}
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             {work.links.live && (
-              <motion.a
+              <NeoBrutalistButton
                 href={work.links.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-retro-primary text-sm"
+                backgroundColor="bg-brutal-blue"
+                textColor="text-brutal-white"
+                className="text-sm px-5 py-2"
               >
                 Live Demo
-              </motion.a>
+              </NeoBrutalistButton>
             )}
             {work.links.github && (
-              <motion.a
+              <NeoBrutalistButton
                 href={work.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-retro-secondary text-sm"
+                backgroundColor="bg-brutal-lime"
+                className="text-sm px-5 py-2"
               >
                 GitHub
-              </motion.a>
+              </NeoBrutalistButton>
             )}
           </div>
         </div>
-      </motion.div>
+      </NeoBrutalistCard>
     </motion.div>
   );
 };
@@ -196,33 +196,26 @@ const FilterButtons: React.FC<{
   onFilterChange: (filter: string) => void;
 }> = ({ categories, activeFilter, onFilterChange }) => {
   return (
-    <div className="flex flex-wrap justify-center gap-4 mb-12">
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+    <div className="flex flex-wrap justify-center gap-6 mb-16">
+      <NeoBrutalistButton
         onClick={() => onFilterChange('all')}
-        className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-          activeFilter === 'all'
-            ? 'btn-retro-primary'
-            : 'glass-card text-retro-white hover:text-retro-electric-blue'
-        }`}
+        backgroundColor={activeFilter === 'all' ? 'bg-brutal-yellow' : 'bg-brutal-white'}
+        borderColor="border-brutal-black"
+        className="px-6 py-3"
       >
         All Works
-      </motion.button>
+      </NeoBrutalistButton>
       {categories.map((category) => (
-        <motion.button
+        <NeoBrutalistButton
           key={category}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           onClick={() => onFilterChange(category)}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 capitalize ${
-            activeFilter === category
-              ? 'btn-retro-primary'
-              : 'glass-card text-retro-white hover:text-retro-electric-blue'
-          }`}
+          backgroundColor={activeFilter === category ? 'bg-brutal-pink' : 'bg-brutal-white'}
+          textColor={activeFilter === category ? 'text-brutal-white' : 'text-brutal-black'}
+          borderColor="border-brutal-black"
+          className="px-6 py-3 capitalize"
         >
           {category}
-        </motion.button>
+        </NeoBrutalistButton>
       ))}
     </div>
   );
@@ -240,7 +233,7 @@ const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
     : works.filter(work => work.category === activeFilter);
 
   return (
-    <section className="section-padding relative min-h-screen">
+    <section className="section-padding relative min-h-screen bg-[#F5F1E8]">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
@@ -273,13 +266,20 @@ const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="heading-1 retro-glow-blue mb-6">
-            Featured Works
-          </h2>
-          <p className="body-lg text-retro-gray-light max-w-2xl mx-auto">
-            A collection of projects showcasing modern web development, 
-            mobile applications, and creative design solutions.
-          </p>
+          <HoverParallaxText intensity={0.4}>
+            <h2 className="font-metanoia text-7xl md:text-8xl font-black text-brutal-white mb-8 uppercase" style={{
+              WebkitTextStroke: '3px #000000',
+              textShadow: '6px 6px 0px #000000'
+            }}>
+              Featured Works
+            </h2>
+          </HoverParallaxText>
+          <div className="inline-block bg-brutal-yellow border-5 border-brutal-black px-8 py-4 shadow-brutal-lg">
+            <p className="font-bauhaus text-lg text-brutal-black font-bold max-w-2xl">
+              A collection of projects showcasing modern web development, 
+              mobile applications, and creative design solutions.
+            </p>
+          </div>
         </motion.div>
 
         {/* Filter Buttons */}

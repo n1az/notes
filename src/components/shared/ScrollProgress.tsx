@@ -21,10 +21,10 @@ const ScrollProgress: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1.5 }}
-      className="fixed top-0 left-0 w-full h-1 bg-retro-space-navy/30 backdrop-blur-sm z-50"
+      className="fixed top-0 left-0 w-full h-2 bg-brutal-white border-b-4 border-brutal-black z-50"
     >
       <motion.div
-        className="h-full bg-gradient-to-r from-retro-electric-blue via-retro-neon-purple to-retro-hot-pink"
+        className="h-full bg-brutal-yellow border-r-4 border-brutal-black"
         style={{
           scaleX: scrollProgress,
           transformOrigin: '0%'

@@ -3,6 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NeoBrutalistCard, NeoBrutalistButton, NeoBrutalistBadge } from './shared/NeoBrutalistCard';
+import { HoverParallaxText } from './shared/ParallaxText';
 import type { Think } from '../types';
 
 interface ThinksSectionProps {
@@ -71,8 +73,6 @@ const ThoughtBubble: React.FC<{ position: [number, number, number] }> = ({ posit
 
 // Think card component
 const ThinkCard: React.FC<{ think: Think; index: number }> = ({ think, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -86,54 +86,53 @@ const ThinkCard: React.FC<{ think: Think; index: number }> = ({ think, index }) 
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.6 }}
-      className="group relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="group relative h-full"
     >
-      <motion.div
-        whileHover={{ scale: 1.02 }}
-        className="glass-card p-6 rounded-xl relative overflow-hidden h-full flex flex-col"
+      <NeoBrutalistCard
+        backgroundColor="bg-brutal-white"
+        borderColor="border-brutal-black"
+        shadowColor="#000000"
+        borderWidth="border-6"
+        shadowOffset="10px"
+        hoverEffect={true}
+        className="p-6 h-full flex flex-col"
       >
-        {/* Background gradient on hover */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 0.1 : 0 }}
-          className="absolute inset-0 bg-gradient-to-br from-retro-neon-purple via-retro-hot-pink to-retro-sunset-orange"
-        />
-
         <div className="relative z-10 flex flex-col h-full">
           {/* Published date and read time */}
-          <div className="flex items-center justify-between text-sm text-retro-gray-medium mb-3">
-            <time dateTime={think.createdAt}>
+          <div className="flex items-center justify-between text-sm font-bauhaus font-bold text-brutal-black mb-4">
+            <time dateTime={think.createdAt} className="uppercase">
               {formatDate(think.createdAt)}
             </time>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 bg-brutal-lime px-3 py-1 border-3 border-brutal-black">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              {think.readTime} min read
+              {think.readTime} MIN
             </span>
           </div>
 
-          {/* Think title */}
-          <h3 className="heading-4 text-retro-white mb-3 group-hover:retro-glow-purple transition-all duration-300">
-            {think.title}
-          </h3>
+          {/* Think title with parallax */}
+          <HoverParallaxText intensity={0.2}>
+            <h3 className="font-metanoia text-3xl font-black text-brutal-black mb-4 uppercase leading-tight">
+              {think.title}
+            </h3>
+          </HoverParallaxText>
 
           {/* Excerpt */}
-          <p className="body-sm text-retro-gray-light mb-4 flex-grow line-clamp-4">
+          <p className="font-helvetica-world text-base text-brutal-black font-medium mb-5 flex-grow leading-relaxed">
             {think.excerpt}
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2 mb-5">
             {think.tags.slice(0, 3).map((tag) => (
-              <span
+              <NeoBrutalistBadge
                 key={tag}
-                className="px-2 py-1 text-xs bg-retro-neon-purple/20 text-retro-neon-purple rounded border border-retro-neon-purple/30"
+                color={index % 3 === 0 ? 'pink' : index % 3 === 1 ? 'cyan' : 'purple'}
+                className="text-xs"
               >
                 #{tag}
-              </span>
+              </NeoBrutalistBadge>
             ))}
             {think.tags.length > 3 && (
               <span className="px-2 py-1 text-xs text-retro-gray-medium">
@@ -143,15 +142,14 @@ const ThinkCard: React.FC<{ think: Think; index: number }> = ({ think, index }) 
           </div>
 
           {/* Read more link */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="self-start text-retro-electric-blue hover:text-retro-neon-cyan transition-colors duration-300 font-semibold text-sm"
+          <NeoBrutalistButton
+            backgroundColor="bg-brutal-orange"
+            className="self-start text-sm px-5 py-2"
           >
             Read More →
-          </motion.button>
+          </NeoBrutalistButton>
         </div>
-      </motion.div>
+      </NeoBrutalistCard>
     </motion.article>
   );
 };
@@ -163,33 +161,25 @@ const TagFilter: React.FC<{
   onTagChange: (tag: string) => void;
 }> = ({ tags, activeTag, onTagChange }) => {
   return (
-    <div className="flex flex-wrap justify-center gap-3 mb-12">
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+    <div className="flex flex-wrap justify-center gap-4 mb-16">
+      <NeoBrutalistButton
         onClick={() => onTagChange('all')}
-        className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 ${
-          activeTag === 'all'
-            ? 'bg-gradient-to-r from-retro-neon-purple to-retro-hot-pink text-retro-white'
-            : 'glass-card text-retro-white hover:text-retro-neon-purple'
-        }`}
+        backgroundColor={activeTag === 'all' ? 'bg-brutal-purple' : 'bg-brutal-white'}
+        textColor={activeTag === 'all' ? 'text-brutal-white' : 'text-brutal-black'}
+        className="px-5 py-2 text-sm"
       >
         All Topics
-      </motion.button>
+      </NeoBrutalistButton>
       {tags.map((tag) => (
-        <motion.button
+        <NeoBrutalistButton
           key={tag}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           onClick={() => onTagChange(tag)}
-          className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 capitalize ${
-            activeTag === tag
-              ? 'bg-gradient-to-r from-retro-neon-purple to-retro-hot-pink text-retro-white'
-              : 'glass-card text-retro-white hover:text-retro-neon-purple'
-          }`}
+          backgroundColor={activeTag === tag ? 'bg-brutal-pink' : 'bg-brutal-white'}
+          textColor={activeTag === tag ? 'text-brutal-white' : 'text-brutal-black'}
+          className="px-5 py-2 text-sm capitalize"
         >
           #{tag}
-        </motion.button>
+        </NeoBrutalistButton>
       ))}
     </div>
   );
@@ -209,7 +199,7 @@ const ThinksSection: React.FC<ThinksSectionProps> = ({ thinks }) => {
     : thinks.filter(think => think.tags.includes(activeTag));
 
   return (
-    <section className="section-padding relative min-h-screen">
+    <section className="section-padding relative min-h-screen bg-[#E8E3D6]">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 8], fov: 75 }}>
@@ -244,13 +234,20 @@ const ThinksSection: React.FC<ThinksSectionProps> = ({ thinks }) => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="heading-1 retro-glow-purple mb-6">
-            Thinks & Insights
-          </h2>
-          <p className="body-lg text-retro-gray-light max-w-2xl mx-auto">
-            Thoughts on technology, design, and the intersection of creativity 
-            and code. Exploring ideas that shape the digital landscape.
-          </p>
+          <HoverParallaxText intensity={0.4}>
+            <h2 className="font-metanoia text-7xl md:text-8xl font-black text-brutal-white mb-8 uppercase" style={{
+              WebkitTextStroke: '3px #000000',
+              textShadow: '6px 6px 0px #000000'
+            }}>
+              Thinks & Insights
+            </h2>
+          </HoverParallaxText>
+          <div className="inline-block bg-brutal-pink border-5 border-brutal-black px-8 py-4 shadow-brutal-lg">
+            <p className="font-bauhaus text-lg text-brutal-white font-bold max-w-2xl">
+              Thoughts on technology, design, and the intersection of creativity 
+              and code. Exploring ideas that shape the digital landscape.
+            </p>
+          </div>
         </motion.div>
 
         {/* Tag Filter */}

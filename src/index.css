@@ -76,28 +76,32 @@
   
   body {
     font-family: 'Helvetica World', 'Oswald', 'Arial Narrow', sans-serif;
-    background: linear-gradient(135deg, #0A0E27 0%, #1A1A2E 50%, #16213E 100%);
-    color: #FFFFFF;
+    background: #F5F1E8;
+    color: #000000;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    /* Neo-brutalist default text */
+    font-weight: 500;
   }
 
   * {
     box-sizing: border-box;
   }
 
-  /* Custom scrollbar for webkit browsers */
+  /* Custom scrollbar for webkit browsers - Neo-brutalist style */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(26, 26, 46, 0.5);
+    background: #F0F0F0;
+    border-left: 3px solid #000000;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #00D4FF, #9D4EDD);
+    background: #FFFF00;
+    border: 3px solid #000000;
     border-radius: 4px;
   }
 
@@ -108,16 +112,7 @@
 
 /* Component utilities */
 @layer components {
-  /* Glass morphism effects */
-  .glass-card {
-    @apply bg-glass-primary border border-glass-border-primary backdrop-blur-md;
-  }
-
-  .glass-dark {
-    @apply bg-glass-dark border border-glass-border-light backdrop-blur-md;
-  }
-
-  /* Retro glow effects */
+  /* Retro glow effects - kept for 3D elements */
   .retro-glow-blue {
     text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.6), 0 0 30px rgba(0, 212, 255, 0.4);
   }
@@ -211,6 +206,58 @@
 
   .body-sm {
     @apply font-body text-sm md:text-base leading-relaxed;
+  }
+
+  /* Neo-Brutalist Typography Utilities */
+  .neo-heading-1 {
+    @apply font-metanoia text-6xl md:text-8xl font-black uppercase leading-none tracking-tighter;
+  }
+
+  .neo-heading-2 {
+    @apply font-metanoia text-5xl md:text-7xl font-black uppercase leading-tight tracking-tight;
+  }
+
+  .neo-heading-3 {
+    @apply font-metanoia text-4xl md:text-5xl font-black uppercase leading-tight;
+  }
+
+  .neo-heading-4 {
+    @apply font-metanoia text-3xl md:text-4xl font-black uppercase leading-tight;
+  }
+
+  .neo-label {
+    @apply font-bauhaus text-sm md:text-base font-bold uppercase tracking-wider;
+  }
+
+  .neo-body {
+    @apply font-helvetica-world text-base md:text-lg font-medium leading-relaxed;
+  }
+
+  /* Neo-Brutalist Button Styles */
+  .neo-btn {
+    @apply font-bold uppercase px-6 py-3 border-5 border-brutal-black transition-all duration-200;
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+
+  .neo-btn:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0px 0px #000000;
+  }
+
+  .neo-btn:active {
+    transform: translate(8px, 8px);
+    box-shadow: none;
+  }
+
+  /* Neo-Brutalist Card Styles */
+  .neo-card {
+    @apply bg-brutal-white border-6 border-brutal-black;
+    box-shadow: 10px 10px 0px 0px #000000;
+  }
+
+  .neo-card-hover:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 6px 6px 0px 0px #000000;
   }
 
   /* Legacy vintage modern styles for compatibility */
