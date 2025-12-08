@@ -1,844 +1,196 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&family=Fira+Code:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Fredoka+One:wght@400&family=Righteous:wght@400&family=Creepster:wght@400&family=Nosifer:wght@400&family=Griffy:wght@400&family=Rye:wght@400&family=Bebas+Neue:wght@400&family=Orbitron:wght@400;700;900&family=Kanit:wght@300;400;600;700&family=Oswald:wght@300;400;600;700&family=Roboto+Condensed:wght@300;400;700&family=Archivo+Black:wght@400&family=Anton:wght@400&family=Impact:wght@400&display=swap');
-
-/* Custom font faces for portfolio fonts */
-@font-face {
-  font-family: 'Metanoia';
-  src: url('/fonts/Metanoia.eot');
-  src: local('Metanoia Regular'), local('Metanoia'),
-       url('/fonts/Metanoia.eot?#iefix') format('embedded-opentype'),
-       url('/fonts/Metanoia.woff2') format('woff2'),
-       url('/fonts/Metanoia.woff') format('woff'),
-       url('/fonts/Metanoia.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Hangout';
-  src: url('/fonts/quarantype-hangout.woff2') format('woff2'),
-       url('/fonts/quarantype-hangout.woff') format('woff'),
-       url('/fonts/quarantype-hangout.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'LIHAM';
-  src: url('/fonts/Liham 2.0.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ITC Bauhaus';
-  src: url('/fonts/BauhausStd-Medium.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica World';
-  src: url('/fonts/HelveticaWorld-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Giaza';
-  src: url('/fonts/Giaza.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Giaza Stencil';
-  src: url('/fonts/Giaza Stencil.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global base styles */
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    font-family: 'Helvetica World', 'Oswald', 'Arial Narrow', sans-serif;
-    background: #F5F1E8;
-    color: #000000;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    /* Neo-brutalist default text */
-    font-weight: 500;
-  }
+@custom-variant dark (&:is(.dark *));
 
+:root {
+  --font-size: 16px;
+  --background: #FCD06A;
+  --foreground: #2D1B00;
+  --card: #FCD06A;
+  --card-foreground: #2D1B00;
+  --popover: #FCD06A;
+  --popover-foreground: #2D1B00;
+  --primary: #CC6B58;
+  --primary-foreground: #FFF8DC;
+  --secondary: #388EA4;
+  --secondary-foreground: #FFF8DC;
+  --muted: #E8904D;
+  --muted-foreground: #2D1B00;
+  --accent: #5B4699;
+  --accent-foreground: #FFF8DC;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: #2D1B00;
+  --input: transparent;
+  --input-background: #FFF8DC;
+  --switch-background: #cbced4;
+  --font-weight-medium: 700;
+  --font-weight-normal: 500;
+  --ring: #2D1B00;
+  --chart-1: #CC6B58;
+  --chart-2: #388EA4;
+  --chart-3: #E8904D;
+  --chart-4: #5B4699;
+  --chart-5: #FCD06A;
+  --radius: 0rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #030213;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: #1a1625;
+  --foreground: #FCD06A;
+  --card: #2D1B3D;
+  --card-foreground: #FCD06A;
+  --popover: #2D1B3D;
+  --popover-foreground: #FCD06A;
+  --primary: #E8904D;
+  --primary-foreground: #1a1625;
+  --secondary: #388EA4;
+  --secondary-foreground: #FFF8DC;
+  --muted: #5B4699;
+  --muted-foreground: #FCD06A;
+  --accent: #CC6B58;
+  --accent-foreground: #FFF8DC;
+  --destructive: #CC6B58;
+  --destructive-foreground: #ffffff;
+  --border: #FCD06A;
+  --input: transparent;
+  --input-background: #2D1B3D;
+  --switch-background: #5B4699;
+  --font-weight-medium: 700;
+  --font-weight-normal: 500;
+  --ring: #FCD06A;
+  --chart-1: #E8904D;
+  --chart-2: #388EA4;
+  --chart-3: #FCD06A;
+  --chart-4: #CC6B58;
+  --chart-5: #5B4699;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
   * {
-    box-sizing: border-box;
+    border-color: var(--border);
   }
 
-  /* Custom scrollbar for webkit browsers - Neo-brutalist style */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #F0F0F0;
-    border-left: 3px solid #000000;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #FFFF00;
-    border: 3px solid #000000;
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, #00FFFF, #FF006E);
-  }
-}
-
-/* Component utilities */
-@layer components {
-  /* Retro glow effects - kept for 3D elements */
-  .retro-glow-blue {
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8), 0 0 20px rgba(0, 212, 255, 0.6), 0 0 30px rgba(0, 212, 255, 0.4);
-  }
-
-  .retro-glow-purple {
-    text-shadow: 0 0 10px rgba(157, 78, 221, 0.8), 0 0 20px rgba(157, 78, 221, 0.6), 0 0 30px rgba(157, 78, 221, 0.4);
-  }
-
-  .retro-glow-orange {
-    text-shadow: 0 0 10px rgba(255, 107, 53, 0.8), 0 0 20px rgba(255, 107, 53, 0.6), 0 0 30px rgba(255, 107, 53, 0.4);
-  }
-
-  /* Button styles */
-  .btn-retro {
-    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105;
-  }
-
-  .btn-retro-primary {
-    @apply btn-retro bg-gradient-to-r from-retro-electric-blue to-retro-neon-cyan text-retro-space-navy;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-  }
-
-  .btn-retro-primary:hover {
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
-  }
-
-  .btn-retro-secondary {
-    @apply btn-retro bg-gradient-to-r from-retro-neon-purple to-retro-hot-pink text-retro-white;
-    box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
-  }
-
-  .btn-retro-secondary:hover {
-    box-shadow: 0 6px 20px rgba(157, 78, 221, 0.6);
-  }
-
-  /* Section spacing */
-  .section-padding {
-    @apply py-20 px-6 md:py-32 md:px-8;
-  }
-
-  /* Content containers */
-  .container-sm {
-    @apply max-w-2xl mx-auto;
-  }
-
-  .container-md {
-    @apply max-w-4xl mx-auto;
-  }
-
-  .container-lg {
-    @apply max-w-6xl mx-auto;
-  }
-
-  .container-xl {
-    @apply max-w-7xl mx-auto;
-  }
-
-  /* Grid layouts */
-  .grid-works {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
-  }
-
-  .grid-thinks {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
-  }
-
-  /* Typography utilities */
-  .heading-1 {
-    @apply font-hero text-4xl md:text-6xl lg:text-7xl font-bold leading-tight;
-  }
-
-  .heading-2 {
-    @apply font-hero text-3xl md:text-4xl lg:text-5xl font-bold leading-tight;
-  }
-
-  .heading-3 {
-    @apply font-display text-2xl md:text-3xl font-semibold leading-tight;
-  }
-
-  .heading-4 {
-    @apply font-display text-xl md:text-2xl font-semibold leading-tight;
-  }
-
-  .body-lg {
-    @apply font-body text-lg md:text-xl leading-relaxed;
-  }
-
-  .body-md {
-    @apply font-body text-base md:text-lg leading-relaxed;
-  }
-
-  .body-sm {
-    @apply font-body text-sm md:text-base leading-relaxed;
-  }
-
-  /* Neo-Brutalist Typography Utilities */
-  .neo-heading-1 {
-    @apply font-metanoia text-6xl md:text-8xl font-black uppercase leading-none tracking-tighter;
-  }
-
-  .neo-heading-2 {
-    @apply font-metanoia text-5xl md:text-7xl font-black uppercase leading-tight tracking-tight;
-  }
-
-  .neo-heading-3 {
-    @apply font-metanoia text-4xl md:text-5xl font-black uppercase leading-tight;
-  }
-
-  .neo-heading-4 {
-    @apply font-metanoia text-3xl md:text-4xl font-black uppercase leading-tight;
-  }
-
-  .neo-label {
-    @apply font-bauhaus text-sm md:text-base font-bold uppercase tracking-wider;
-  }
-
-  .neo-body {
-    @apply font-helvetica-world text-base md:text-lg font-medium leading-relaxed;
-  }
-
-  /* Neo-Brutalist Button Styles */
-  .neo-btn {
-    @apply font-bold uppercase px-6 py-3 border-5 border-brutal-black transition-all duration-200;
-    box-shadow: 8px 8px 0px 0px #000000;
-  }
-
-  .neo-btn:hover {
-    transform: translate(4px, 4px);
-    box-shadow: 4px 4px 0px 0px #000000;
-  }
-
-  .neo-btn:active {
-    transform: translate(8px, 8px);
-    box-shadow: none;
-  }
-
-  /* Neo-Brutalist Card Styles */
-  .neo-card {
-    @apply bg-brutal-white border-6 border-brutal-black;
-    box-shadow: 10px 10px 0px 0px #000000;
-  }
-
-  .neo-card-hover:hover {
-    transform: translate(4px, 4px);
-    box-shadow: 6px 6px 0px 0px #000000;
-  }
-
-  /* Legacy vintage modern styles for compatibility */
-  .vintage-paper {
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px),
-      radial-gradient(circle at 80% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  
-  .vintage-dotted {
-    background-image: radial-gradient(circle, rgba(139, 69, 19, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  
-  .notebook-lines {
-    background-image: 
-      linear-gradient(to bottom, transparent 0%, transparent 29px, rgba(139, 69, 19, 0.1) 30px);
-    background-size: 100% 30px;
-  }
-}
-
-/* Utility classes */
-@layer utilities {
-  /* Animation utilities */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite alternate;
-  }
-
-  .animate-gradient-shift {
-    animation: gradient-shift 8s ease-in-out infinite;
-    background-size: 200% 200%;
-  }
-
-  /* Responsive text utilities */
-  .text-responsive-xs {
-    @apply text-xs sm:text-sm;
-  }
-
-  .text-responsive-sm {
-    @apply text-sm sm:text-base;
-  }
-
-  .text-responsive-base {
-    @apply text-base sm:text-lg;
-  }
-
-  .text-responsive-lg {
-    @apply text-lg sm:text-xl;
-  }
-
-  .text-responsive-xl {
-    @apply text-xl sm:text-2xl;
-  }
-
-  .text-responsive-2xl {
-    @apply text-2xl sm:text-3xl;
-  }
-
-  .text-responsive-3xl {
-    @apply text-3xl sm:text-4xl md:text-5xl;
-  }
-
-  .text-responsive-4xl {
-    @apply text-4xl sm:text-5xl md:text-6xl;
-  }
-}
-
-/* Keyframe animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
-  }
-}
-
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes star-twinkle {
-  0% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes celestial-float {
-  0%, 100% {
-    transform: translateY(0px) translateX(0px);
-  }
-  33% {
-    transform: translateY(-15px) translateX(10px);
-  }
-  66% {
-    transform: translateY(-5px) translateX(-10px);
-  }
-}
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
-}
-
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* Print styles */
-@media print {
   body {
-    background: white !important;
-    color: black !important;
-  }
-  
-  .no-print {
-    display: none !important;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
-/* Custom font faces for Canva-inspired fonts */
-@font-face {
-  font-family: 'Hangout';
-  src: url('/fonts/quarantype-hangout.woff2') format('woff2'),
-       url('/fonts/quarantype-hangout.woff') format('woff'),
-       url('/fonts/quarantype-hangout.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Debug styles for font loading */
-.font-hangout {
-  font-family: 'Hangout', 'Anton', 'Bebas Neue', 'Impact', sans-serif !important;
-}
-
-@font-face {
-  font-family: 'LIHAM';
-  src: url('/fonts/Liham 2.0.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ITC Bauhaus';
-  src: url('/fonts/BauhausStd-Medium.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Helvetica World';
-  src: url('/fonts/HelveticaWorld-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Giaza';
-  src: url('/fonts/Giaza.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Metanoia';
-  src: url('/fonts/Metanoia.woff2') format('woff2'),
-       url('/fonts/Metanoia.woff') format('woff'),
-       url('/fonts/Metanoia.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom vintage modern styles */
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
 @layer base {
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background-color: #F8F6F0;
-    color: #1a1a1a;
-    margin: 0;
-    padding: 0;
+  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
   }
 }
 
-@layer components {
-  .vintage-paper {
-    background-image: 
-      radial-gradient(circle at 20% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px),
-      radial-gradient(circle at 80% 50%, rgba(120, 119, 108, 0.03) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-  
-  .vintage-dotted {
-    background-image: radial-gradient(circle, rgba(139, 69, 19, 0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  
-  .notebook-lines {
-    background-image: 
-      linear-gradient(to bottom, transparent 0%, transparent 29px, rgba(139, 69, 19, 0.1) 30px);
-    background-size: 100% 30px;
-  }
-
-  /* Custom animations */
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { 
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-      transform: scale(1);
-    }
-    50% { 
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-      transform: scale(1.02);
-    }
-  }
-
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  @keyframes slide-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Glassmorphism Animations */
-  @keyframes float-gentle {
-    0%, 100% { 
-      transform: translateY(0px) rotate(0deg);
-    }
-    33% { 
-      transform: translateY(-8px) rotate(1deg);
-    }
-    66% { 
-      transform: translateY(-4px) rotate(-0.5deg);
-    }
-  }
-
-  @keyframes float-space {
-    0%, 100% { 
-      transform: translateY(0px) translateX(0px) rotate(0deg);
-    }
-    25% { 
-      transform: translateY(-12px) translateX(8px) rotate(2deg);
-    }
-    50% { 
-      transform: translateY(-6px) translateX(-4px) rotate(-1deg);
-    }
-    75% { 
-      transform: translateY(-10px) translateX(6px) rotate(1.5deg);
-    }
-  }
-
-  @keyframes fly-across {
-    0% { 
-      transform: translateX(-100vw) translateY(20px) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% { 
-      transform: translateX(100vw) translateY(-20px) rotate(360deg);
-      opacity: 0;
-    }
-  }
-
-  @keyframes star-twinkle {
-    0%, 100% { 
-      transform: scale(1);
-      opacity: 0.8;
-    }
-    50% { 
-      transform: scale(1.5);
-      opacity: 1;
-    }
-  }
-
-  @keyframes celestial-float {
-    0%, 100% { 
-      transform: translateY(0px) translateX(0px) rotate(0deg);
-    }
-    33% { 
-      transform: translateY(-15px) translateX(10px) rotate(5deg);
-    }
-    66% { 
-      transform: translateY(-8px) translateX(-6px) rotate(-3deg);
-    }
-  }
-
-  @keyframes blur-pulse {
-    0%, 100% { 
-      backdrop-filter: blur(8px) saturate(120%);
-    }
-    50% { 
-      backdrop-filter: blur(12px) saturate(140%);
-    }
-  }
-
-  @keyframes glass-glow {
-    0%, 100% { 
-      box-shadow: 
-        0 8px 32px rgba(139, 69, 19, 0.06),
-        0 2px 8px rgba(101, 67, 33, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-    50% { 
-      box-shadow: 
-        0 12px 48px rgba(139, 69, 19, 0.10),
-        0 4px 16px rgba(212, 175, 55, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    }
-  }
-
-  @keyframes gradient-shift {
-    0% { 
-      background-position: 0% 50%;
-    }
-    50% { 
-      background-position: 100% 50%;
-    }
-    100% { 
-      background-position: 0% 50%;
-    }
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-float-gentle {
-    animation: float-gentle 8s ease-in-out infinite;
-  }
-
-  .animate-float-space {
-    animation: float-space 4s ease-in-out infinite;
-  }
-
-  .animate-fly-across {
-    animation: fly-across 8s linear infinite;
-  }
-
-  .animate-star-twinkle {
-    animation: star-twinkle 3s ease-in-out infinite;
-  }
-
-  .animate-celestial-float {
-    animation: celestial-float 12s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 3s ease-in-out infinite;
-  }
-
-  .animate-blur-pulse {
-    animation: blur-pulse 4s ease-in-out infinite;
-  }
-
-  .animate-glass-glow {
-    animation: glass-glow 6s ease-in-out infinite;
-  }
-
-  .animate-gradient-shift {
-    animation: gradient-shift 8s ease infinite;
-    background-size: 200% 200%;
-  }
-
-  .animate-shimmer {
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-
-  .animate-slide-in-up {
-    animation: slide-in-up 0.6s ease-out;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.8s ease-out;
-  }
-
-  /* Staggered animation delays */
-  .animate-delay-100 { animation-delay: 0.1s; }
-  .animate-delay-200 { animation-delay: 0.2s; }
-  .animate-delay-300 { animation-delay: 0.3s; }
-  .animate-delay-500 { animation-delay: 0.5s; }
-  .animate-delay-700 { animation-delay: 0.7s; }
-
-  /* Enhanced transitions */
-  .transition-all-300 {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .transition-all-500 {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Custom glass morphism */
-  .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .glass-dark {
-    background: rgba(139, 69, 19, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(139, 69, 19, 0.2);
-  }
-
-  /* Glassmorphism Effects */
-  .glass-subtle {
-    background: rgba(255, 252, 247, 0.25);
-    backdrop-filter: blur(8px) saturate(120%);
-    -webkit-backdrop-filter: blur(8px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.20);
-    border-radius: 2rem;
-    box-shadow: 
-      0 8px 32px rgba(139, 69, 19, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  }
-
-  /* Fallback for browsers without backdrop-filter support */
-  @supports not (backdrop-filter: blur(8px)) {
-    .glass-subtle {
-      background: rgba(255, 252, 247, 0.85);
-    }
-    .glass-warm {
-      background: rgba(248, 246, 240, 0.90);
-    }
-    .glass-card {
-      background: rgba(255, 252, 247, 0.80);
-    }
-    .glass-hover {
-      background: rgba(255, 252, 247, 0.95);
-    }
-    .glass-sidebar {
-      background: rgba(248, 246, 240, 0.95);
-    }
-  }
-
-  .glass-warm {
-    background: rgba(248, 246, 240, 0.20);
-    backdrop-filter: blur(10px) saturate(130%);
-    -webkit-backdrop-filter: blur(10px) saturate(130%);
-    border: 1px solid rgba(248, 246, 240, 0.30);
-    border-radius: 2rem;
-    box-shadow: 
-      0 12px 40px rgba(139, 69, 19, 0.10),
-      inset 0 1px 0 rgba(255, 255, 255, 0.20);
-  }
-
-  .glass-card {
-    background: rgba(255, 252, 247, 0.15);
-    backdrop-filter: blur(12px) saturate(140%);
-    -webkit-backdrop-filter: blur(12px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 2rem;
-    box-shadow: 
-      0 8px 32px rgba(139, 69, 19, 0.06),
-      0 2px 8px rgba(101, 67, 33, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  }
-
-  .glass-hover {
-    background: rgba(255, 252, 247, 0.30);
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 2rem;
-    box-shadow: 
-      0 16px 48px rgba(139, 69, 19, 0.12),
-      0 4px 16px rgba(212, 175, 55, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.30);
-  }
-
-  .glass-sidebar {
-    background: rgba(248, 246, 240, 0.35);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border-right: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 
-      4px 0 32px rgba(139, 69, 19, 0.08),
-      inset -1px 0 0 rgba(255, 255, 255, 0.15);
-  }
-
-  /* Text effects */
-  .text-gradient {
-    background: linear-gradient(135deg, #8B4513, #D4AF37, #654321);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Hover effects */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Custom scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(139, 69, 19, 0.1);
-    border-radius: 3px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(139, 69, 19, 0.3);
-    border-radius: 3px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(139, 69, 19, 0.5);
-  }
+html {
+  font-size: var(--font-size);
 }
