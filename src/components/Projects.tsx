@@ -1,4 +1,5 @@
 import { ProjectCard } from "./ProjectCard";
+import { useMode } from "../contexts/ModeContext";
 
 const projects = [
   {
@@ -46,19 +47,57 @@ const projects = [
 ];
 
 export function Projects() {
+  const { mode } = useMode();
+  
+  if (mode !== 'ai') return null;
+  
   return (
-    <section id="projects" className="py-20 px-4 bg-muted">
-      <div className="max-w-7xl mx-auto">
+    <section id="ai-content" className="py-20 px-4 bg-transparent animate-in fade-in duration-700 min-h-[400vh] relative z-10">
+      <div id="projects" className="max-w-7xl mx-auto">
         <div className="mb-16 text-center">
           <h2 className="mb-4">Selected Projects</h2>
           <p className="max-w-2xl mx-auto">
             A collection of my recent AI and machine learning projects spanning computer vision, NLP, and predictive analytics.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} />
           ))}
+        </div>
+
+        {/* Additional scrolling sections for metaball animation */}
+        <div className="h-screen flex items-center justify-center mb-32">
+          <div className="text-center max-w-3xl">
+            <h2 className="text-6xl font-bold mb-6 uppercase" style={{ fontFamily: 'Metanoia, sans-serif' }}>
+              Deep Learning Expertise
+            </h2>
+            <p className="text-2xl text-muted-foreground">
+              Building neural networks with state-of-the-art architectures
+            </p>
+          </div>
+        </div>
+
+        <div className="h-screen flex items-center justify-center mb-32">
+          <div className="text-center max-w-3xl">
+            <h2 className="text-6xl font-bold mb-6 uppercase" style={{ fontFamily: 'Metanoia, sans-serif' }}>
+              Computer Vision
+            </h2>
+            <p className="text-2xl text-muted-foreground">
+              Creating intelligent systems that see and understand the world
+            </p>
+          </div>
+        </div>
+
+        <div className="h-screen flex items-center justify-center">
+          <div className="text-center max-w-3xl">
+            <h2 className="text-6xl font-bold mb-6 uppercase" style={{ fontFamily: 'Metanoia, sans-serif' }}>
+              AI Innovation
+            </h2>
+            <p className="text-2xl text-muted-foreground">
+              Pushing the boundaries of what's possible with artificial intelligence
+            </p>
+          </div>
         </div>
       </div>
     </section>

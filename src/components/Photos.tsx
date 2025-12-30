@@ -1,5 +1,6 @@
 import { Camera, MapPin } from "lucide-react";
 import { useState } from "react";
+import { useMode } from "../contexts/ModeContext";
 
 const photos = [
   {
@@ -53,10 +54,13 @@ const photos = [
 ];
 
 export function Photos() {
+  const { mode } = useMode();
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
-
+  
+  if (mode !== 'photo') return null;
+  
   return (
-    <section id="photos" className="py-20 px-4 bg-background">
+    <section id="photos" className="py-20 px-4 bg-transparent animate-in fade-in duration-700 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 text-center">
           <h2 className="mb-4">Photo Gallery</h2>

@@ -8,6 +8,7 @@ import { Photos } from "./components/Photos";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { Loader } from "./components/Loader";
+import { ModeProvider } from "./contexts/ModeContext";
 
 export default function App() {
   const [showLoader, setShowLoader] = useState(true);
@@ -17,7 +18,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <ModeProvider>
       {showLoader && <Loader onComplete={handleLoaderComplete} duration={3} />}
       <div className="min-h-screen transition-colors duration-300">
         <Header />
@@ -31,6 +32,6 @@ export default function App() {
         </main>
         <Footer />
       </div>
-    </>
+    </ModeProvider>
   );
 }

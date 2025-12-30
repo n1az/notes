@@ -6,9 +6,9 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t border-b border-foreground/10">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-white/10" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
       <div className="max-w-7xl mx-auto px-6">
-        <nav className="flex items-center justify-between h-14">
+        <nav className="flex items-center justify-between h-14 text-white">
           {/* Logo/Brand */}
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

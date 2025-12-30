@@ -1,4 +1,5 @@
 import { Calendar, Clock } from "lucide-react";
+import { useMode } from "../contexts/ModeContext";
 
 const thoughts = [
   {
@@ -36,53 +37,69 @@ const thoughts = [
 ];
 
 export function Thoughts() {
+  const { mode } = useMode();
+  
+  if (mode !== 'thought') return null;
+  
   return (
-    <section id="thoughts" className="py-20 px-4 bg-secondary">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4">Recent Thoughts</h2>
-          <p className="max-w-2xl mx-auto">
-            Sharing insights, learnings, and perspectives on AI, machine learning, and the future of technology.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {thoughts.map((thought, index) => (
-            <article key={index} className="bg-card border-4 border-foreground shadow-[8px_8px_0px_0px_rgba(45,27,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(252,208,106,1)] overflow-hidden hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_0px_rgba(45,27,0,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(252,208,106,1)] transition-all">
-              <div className="h-48 overflow-hidden border-b-4 border-foreground">
-                <img 
-                  src={thought.image} 
-                  alt={thought.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex gap-2 mb-3">
-                  {thought.tags.map((tag, i) => (
-                    <span 
-                      key={i}
-                      className="px-3 py-1 bg-muted border-2 border-foreground text-sm"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+    <>
+      {/* Grain texture overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-20 mix-blend-multiply z-[1]"
+        style={{
+          backgroundImage: 'url("https://img.freepik.com/premium-photo/white-dust-scratches-black-background_279525-2.jpg?w=640")',
+          backgroundRepeat: 'repeat'
+        }}
+      />
+      
+      <section id="thoughts" className="py-20 px-4 bg-transparent animate-in fade-in duration-700 relative z-10 min-h-[200vh]" style={{ backgroundColor: 'transparent' }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-white" style={{ fontFamily: 'var(--font-primary)' }}>Recent Thoughts</h2>
+            <p className="max-w-2xl mx-auto text-gray-300" style={{ fontFamily: 'monospace', fontSize: '10px', textTransform: 'uppercase' }}>
+              Sharing insights, learnings, and perspectives on AI, machine learning, and the future of technology.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {thoughts.map((thought, index) => (
+              <article key={index} className="bg-[#1a1a1a] border-2 border-gray-700 shadow-lg overflow-hidden hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-xl transition-all">
+                <div className="h-48 overflow-hidden border-b-2 border-gray-700">
+                  <img 
+                    src={thought.image} 
+                    alt={thought.title}
+                    className="w-full h-full object-cover opacity-80"
+                  />
                 </div>
-                <h3 className="mb-3">{thought.title}</h3>
-                <p className="mb-4">{thought.excerpt}</p>
-                <div className="flex items-center gap-4 text-sm">
-                  <div className="flex items-center gap-1">
-                    <Calendar size={16} />
-                    <span>{thought.date}</span>
+                <div className="p-6">
+                  <div className="flex gap-2 mb-3">
+                    {thought.tags.map((tag, i) => (
+                      <span 
+                        key={i}
+                        className="px-3 py-1 bg-gray-800 border border-gray-600 text-sm text-gray-300"
+                        style={{ fontFamily: 'monospace', fontSize: '10px' }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={16} />
-                    <span>{thought.readTime}</span>
+                  <h3 className="mb-3 text-white" style={{ fontFamily: 'var(--font-primary)' }}>{thought.title}</h3>
+                  <p className="mb-4 text-gray-400" style={{ fontFamily: 'monospace', fontSize: '12px' }}>{thought.excerpt}</p>
+                  <div className="flex items-center gap-4 text-sm text-gray-500" style={{ fontFamily: 'monospace', fontSize: '10px' }}>
+                    <div className="flex items-center gap-1">
+                      <Calendar size={14} />
+                      <span>{thought.date}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock size={14} />
+                      <span>{thought.readTime}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

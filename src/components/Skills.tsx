@@ -1,4 +1,5 @@
 import { Brain, Database, Code2, TrendingUp, Eye, Network } from "lucide-react";
+import { useMode } from "../contexts/ModeContext";
 
 const skills = [
   {
@@ -34,8 +35,12 @@ const skills = [
 ];
 
 export function Skills() {
+  const { mode } = useMode();
+  
+  if (mode !== 'ai') return null;
+  
   return (
-    <section className="py-20 px-4 bg-accent">
+    <section className="py-20 px-4 bg-transparent animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 text-center">
           <h2 className="mb-4">Skills & Expertise</h2>
